@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 29, 2024 at 03:14 PM
+-- Generation Time: Oct 30, 2024 at 11:31 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -62,8 +62,8 @@ CREATE TABLE `categories` (
 
 CREATE TABLE `comments` (
   `idComment` int(11) NOT NULL,
-  `comment_text` varchar(250) NOT NULL,
-  `commentDate` date NOT NULL,
+  `comment_text` text NOT NULL,
+  `commentDate` datetime NOT NULL,
   `evaluate` int(11) NOT NULL,
   `idProduct` int(11) NOT NULL,
   `idUser` int(11) NOT NULL
@@ -80,8 +80,8 @@ CREATE TABLE `coupons` (
   `nameCoupon` varchar(250) NOT NULL,
   `idCoupon` int(11) NOT NULL,
   `discount` int(11) NOT NULL,
-  `startDate` date NOT NULL,
-  `endDate` date NOT NULL,
+  `startDate` datetime NOT NULL,
+  `endDate` datetime NOT NULL,
   `quantityCoupon` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -93,9 +93,9 @@ CREATE TABLE `coupons` (
 
 CREATE TABLE `detailaddress` (
   `idDetailAddress` int(11) NOT NULL,
-  `nameAddress` varchar(250) NOT NULL,
+  `nameAddress` text NOT NULL,
   `phone` varchar(10) NOT NULL,
-  `street` varchar(250) NOT NULL,
+  `street` text NOT NULL,
   `name` varchar(250) NOT NULL,
   `email` varchar(250) NOT NULL,
   `defaultAddress` int(11) NOT NULL,
@@ -150,9 +150,9 @@ CREATE TABLE `district` (
 
 CREATE TABLE `orders` (
   `idOrder` int(11) NOT NULL,
-  `dateOrder` date NOT NULL,
+  `dateOrder` datetime NOT NULL,
   `statusOrder` varchar(250) NOT NULL,
-  `noteOrder` varchar(250) NOT NULL,
+  `noteOrder` text NOT NULL,
   `totalPrice` int(11) NOT NULL,
   `payment` varchar(250) NOT NULL,
   `idAddress` int(11) NOT NULL
@@ -165,7 +165,7 @@ CREATE TABLE `orders` (
 --
 
 CREATE TABLE `piccomment` (
-  `namePicComment` varchar(250) NOT NULL,
+  `namePicComment` text NOT NULL,
   `idPicComment` int(11) NOT NULL,
   `idComment` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -178,7 +178,7 @@ CREATE TABLE `piccomment` (
 
 CREATE TABLE `picproduct` (
   `idPicProduct` int(11) NOT NULL,
-  `namePicProduct` varchar(250) NOT NULL,
+  `namePicProduct` text NOT NULL,
   `idProduct` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -190,9 +190,8 @@ CREATE TABLE `picproduct` (
 
 CREATE TABLE `products` (
   `idProduct` int(11) NOT NULL,
-  `nameProduct` varchar(250) NOT NULL,
-  `price` int(11) NOT NULL,
-  `description` varchar(250) NOT NULL,
+  `nameProduct` text NOT NULL,
+  `description` text NOT NULL,
   `idSubCategory` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -206,7 +205,8 @@ CREATE TABLE `product_size` (
   `idProductSize` int(11) NOT NULL,
   `quantityProduct` int(11) NOT NULL,
   `idProduct` int(11) NOT NULL,
-  `idSize` int(11) NOT NULL
+  `idSize` int(11) NOT NULL,
+  `price` int(110) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
