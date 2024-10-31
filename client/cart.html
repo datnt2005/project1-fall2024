@@ -81,21 +81,23 @@
                 với thế giới các loại hạt của chúng tôi!</p>
         </div>
         <div class="page">
-            <div class="d-flex header-outstanding align-items-center">
-                <p class=" m-1 fs-5 fw-bold">Trang chủ/ Giỏ hàng</p>
-            </div>
+            <div class="container align-items-center">
+                <div class="d-flex pt-2">
+                    <p class=" m-1 fs-5 fw-bold">Trang chủ/ Thanh toán</p>
+                </div>
+            </div> 
         </div>
-
-        <section id="cart" class="py-5">
+        
+        <section id="cart" class="">
             <div class="container">
                 <div class="row">
                     <div class="col-md-9">
                         <form method="post">
-                            <table class="table table-cart ">
+                            <table class="table table-cart text-center">
                                 <thead>
                                     <tr>
                                         <th></th>
-                                        <th>Sản phẩm</th>
+                                        <th class="text-start">Sản phẩm</th>
                                         <th>Giá</th>
                                         <th>Số lượng</th>
                                         <th>Tạm tính</th>
@@ -110,29 +112,100 @@
                                                 </td>
                                                 <td>
                                                     <div class="cart-products d-flex align-items-center">
+                                                        <a href="detailProduct.php?id=<?php echo $cartItem['idProduct']; ?>" class="name-products text-decoration-none"></a>
                                                         <div class="image-products">                                                           
                                                             <img src="./images/Untitled-2-1.png" alt="Items" class="w-100">
                                                         </div>
                                                         <div class="product-content mx-2">
-                                                            <a href="detailProduct.php?id=<?php echo $cartItem['idProduct']; ?>" class="name-products text-decoration-none">
-                                                                <p class="product-name  line-clamp-1 fw-bold text-dark fs-5">Hạt Dẻ Cười</p>
-                                                                <p class="product-siez mb-0 text-dark fw-bold fs-5 mx-4">250g</p>
-                                                            </a>
+                                                            
+                                                                <p class="product-name  line-clamp-1 fw-bold text-dark fs-6">Hạt Dẻ Cười</p>
+                                                                <p class="product-siez mb-0 text-dark fw-bold fs-6 mx-4">250g</p>
+                                                            
                                                         </div>
+                                                    </a>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <span class="price">135.000 VNĐ</span>
                                                 </td>
                                                 <td>
-                                                    <div class="quantity">
-                                                        <button type="button" class="prev" onclick="decreaseQuantity()">-</button>
-                                                        <input type="number" id="quantity-products-<?php echo $cartItem['idDetailCart']; ?>" 
-                                                               name="quantity[<?php echo $cartItem['idDetailCart']; ?>]" 
-                                                               class="input-text qty text bk-product-qty" step="1" min="1" value="1" 
-                                                               title="SL" size="4" autocomplete="off">
-                                                        <button type="button" class="pluss" onclick="increaseQuantity()">+</button>
+                                                        <div class="quantity">
+                                                            <button class="prev" onclick="updateQuantity(this, -1, 4, 6,23)">-</button>
+                                                            <input type="text" class="quantity-cart" name="quantity-cart" value="1">
+                                                            <button class="pluss" onclick="updateQuantity(this, 1, 4, 6, 23)">+</button>
+                                                        </div>
+                                                    
+                                                </td>
+                                                <td>
+                                                    <span class="total-price">135.000 VNĐ</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="remove-cart d-flex align-items-center justify-content-center">
+                                                        <a href="?remove=<?php echo $cartItem['idDetailCart']; ?>" class="fw-bold text-decoration-none text-warning">Xóa</a>
                                                     </div>
+                                                </td>
+                                                <td>
+                                                    <div class="cart-products d-flex align-items-center">
+                                                        <a href="detailProduct.php?id=<?php echo $cartItem['idProduct']; ?>" class="name-products text-decoration-none"></a>
+                                                        <div class="image-products">                                                           
+                                                            <img src="./images/Untitled-2-1.png" alt="Items" class="w-100">
+                                                        </div>
+                                                        <div class="product-content mx-2">
+                                                            
+                                                                <p class="product-name  line-clamp-1 fw-bold text-dark fs-6">Hạt Dẻ Cười</p>
+                                                                <p class="product-siez mb-0 text-dark fw-bold fs-6 mx-4">250g</p>
+                                                            
+                                                        </div>
+                                                    </a>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="price">135.000 VNĐ</span>
+                                                </td>
+                                                <td>
+                                                        <div class="quantity">
+                                                            <button class="prev" onclick="updateQuantity(this, -1, 4, 6,23)">-</button>
+                                                            <input type="text" class="quantity-cart" name="quantity-cart" value="1">
+                                                            <button class="pluss" onclick="updateQuantity(this, 1, 4, 6, 23)">+</button>
+                                                        </div>
+                                                    
+                                                </td>
+                                                <td>
+                                                    <span class="total-price">135.000 VNĐ</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="remove-cart d-flex align-items-center justify-content-center">
+                                                        <a href="?remove=<?php echo $cartItem['idDetailCart']; ?>" class="fw-bold text-decoration-none text-warning">Xóa</a>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="cart-products d-flex align-items-center">
+                                                        <a href="detailProduct.php?id=<?php echo $cartItem['idProduct']; ?>" class="name-products text-decoration-none"></a>
+                                                        <div class="image-products">                                                           
+                                                            <img src="./images/Untitled-2-1.png" alt="Items" class="w-100">
+                                                        </div>
+                                                        <div class="product-content mx-2">
+                                                            
+                                                                <p class="product-name  line-clamp-1 fw-bold text-dark fs-6">Hạt Dẻ Cười</p>
+                                                                <p class="product-siez mb-0 text-dark fw-bold fs-6 mx-4">250g</p>
+                                                            
+                                                        </div>
+                                                    </a>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="price">135.000 VNĐ</span>
+                                                </td>
+                                                <td>
+                                                        <div class="quantity">
+                                                            <button class="prev" onclick="updateQuantity(this, -1, 4, 6,23)">-</button>
+                                                            <input type="text" class="quantity-cart" name="quantity-cart" value="1">
+                                                            <button class="pluss" onclick="updateQuantity(this, 1, 4, 6, 23)">+</button>
+                                                        </div>
                                                     
                                                 </td>
                                                 <td>
@@ -155,22 +228,26 @@
                         </form>
                     </div>
                     <div class="col-md-3">
-                        <div class="d-flex justify-content-end">
-                            <div class="general-cart d-flex justify-content-between">
-                                <div class="start-items">
+                        <p class="fw-bold text-secondary">Tổng giỏ hàng</p>
+                            <hr> 
+                        <div class="d-flex justify-content-start">
+                             
+                            <div class="general-cart d-flex justify-content-between align-items-center">
+                                
+                                <div class="start-items text-start ">
                                     <p class="fw-bold color-main">Tổng sản phẩm:</p>
                                     <p class="fw-bold color-main">TỔNG: </p>
                                 </div>
-                                <div class="end-items text-end mt-4">
+                                <div class="end-items text-end justify-content-end ">
                                     <p class="quantity-products">1</p>
-                                    <p class="total-quantityInCart">
-                                        <span id="total_price">135.000</span>
+                                    <p class="total-quantityInCart fw-bold">
+                                        <span id="total_price ">135.000 VNĐ</span>
                                     </p>
                                 </div>
                             </div>
                         </div>
                             <div class="to-checkout mt-3 d-flex">
-                                <a href="checkout.php" class="toCheck text-decoration-none w-100 text-center py-2 m-auto px-2 bg-info text-dark fw-bold rounded">THANH TOÁN</a>
+                                <a href="checkout.php" class="toCheck text-decoration-none w-100 text-center py-2 m-auto px-2 bg-primary text-white fw-bold rounded">THANH TOÁN</a>
                             </div>
 <!-- 
                             <div class="to-checkout mt-3 d-flex">
@@ -182,7 +259,7 @@
         </section>
     </main>
 
-    <footer id="footer" class="pt-5 mt-3">
+    <footer id="footer" class="pt-5 mt-3 ">
         <div class="footer container">
             <div class="row">
                 <div class="col-md-3">
