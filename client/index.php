@@ -190,248 +190,247 @@
         </div>
         <br>
         <div style="background-color: #F3EFEF">
-        <div class="container my-7">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <br>
-                    <h2>Sản Phẩm</h2>
-                </div>
-                <div class="col-md-2 d-flex flex-column align-items-center product-item">
-                    <div class="text-center">
-                        <img src="./images/icon/—Pngtree—yellow cashew nut illustration_4670632.png" class="d-block w-100" style="height: 80px; object-fit: cover;" alt="">
-                        <p class="mb-0">Hạt điều</p>
+            <div class="container my-7">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <br>
+                        <h2>Sản Phẩm</h2>
                     </div>
-                </div>
-                <div class="col-md-2 d-flex flex-column align-items-center product-item">
-                    <div class="text-center">
-                        <img src="./images/icon/—Pngtree—delicious and delicious specialty macadamia_5601576.png" class="d-block w-100" style="height: 80px; object-fit: cover;" alt="">
-                        <p class="mb-0">Hạt Macca</p>
+                    <div class="col-md-2 d-flex flex-column align-items-center product-item">
+                        <div class="text-center">
+                            <img src="./images/icon/—Pngtree—yellow cashew nut illustration_4670632.png" class="d-block w-100" style="height: 80px; object-fit: cover;" alt="">
+                            <p class="mb-0">Hạt điều</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-2 d-flex flex-column align-items-center product-item">
-                    <div class="text-center">
-                        <img src="./images/icon/png-clipart-brown-nut-almond-single-food-nuts-thumbnail.png" class="d-block w-100" style="height: 80px; object-fit: cover;" alt="">
-                        <p class="mb-0">Hạt Hạnh Nhân</p>
+                    <div class="col-md-2 d-flex flex-column align-items-center product-item">
+                        <div class="text-center">
+                            <img src="./images/icon/—Pngtree—delicious and delicious specialty macadamia_5601576.png" class="d-block w-100" style="height: 80px; object-fit: cover;" alt="">
+                            <p class="mb-0">Hạt Macca</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-2 d-flex flex-column align-items-center product-item">
-                    <div class="text-center">
-                        <img src="./images/icon/png-clipart-green-and-brow-nut-pistachio-nut-pistachio-s-food-pistachio-thumbnail.png" class="d-block w-100" style="height: 80px; object-fit: cover;" alt="">
-                        <p class="mb-0">Hạt Dẻ Cười</p>
+                    <div class="col-md-2 d-flex flex-column align-items-center product-item">
+                        <div class="text-center">
+                            <img src="./images/icon/png-clipart-brown-nut-almond-single-food-nuts-thumbnail.png" class="d-block w-100" style="height: 80px; object-fit: cover;" alt="">
+                            <p class="mb-0">Hạt Hạnh Nhân</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-2 d-flex flex-column align-items-center product-item">
-                    <div class="text-center">
-                        <img src="./images/icon/png-clipart-nut-euclidean-walnut-food-nuts-thumbnail.png" class="d-block w-100" style="height: 80px; object-fit: cover;" alt="">
-                        <p class="mb-0">Hạt Óc Chó</p>
+                    <div class="col-md-2 d-flex flex-column align-items-center product-item">
+                        <div class="text-center">
+                            <img src="./images/icon/png-clipart-green-and-brow-nut-pistachio-nut-pistachio-s-food-pistachio-thumbnail.png" class="d-block w-100" style="height: 80px; object-fit: cover;" alt="">
+                            <p class="mb-0">Hạt Dẻ Cười</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-2 d-flex flex-column align-items-center product-item">
-                    <div class="text-center">
-                        <img src="./images/icon/png-clipart-pumpkin-seed-pumpkin-seed-cucurbita-food-pumpkin-sunflower-seed-vegetables-thumbnail.png" class="d-block w-100" style="height: 80px; object-fit: cover;" alt="">
-                        <p class="mb-0">Hạt Bí</p>
+                    <div class="col-md-2 d-flex flex-column align-items-center product-item">
+                        <div class="text-center">
+                            <img src="./images/icon/png-clipart-nut-euclidean-walnut-food-nuts-thumbnail.png" class="d-block w-100" style="height: 80px; object-fit: cover;" alt="">
+                            <p class="mb-0">Hạt Óc Chó</p>
+                        </div>
+                    </div>
+                    <div class="col-md-2 d-flex flex-column align-items-center product-item">
+                        <div class="text-center">
+                            <img src="./images/icon/png-clipart-pumpkin-seed-pumpkin-seed-cucurbita-food-pumpkin-sunflower-seed-vegetables-thumbnail.png" class="d-block w-100" style="height: 80px; object-fit: cover;" alt="">
+                            <p class="mb-0">Hạt Bí</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <br>
-        <hr style="width: 700px; margin: 0 auto; border: 1px solid #000;">
-        <br>
-        <div class="container my-4">
-            <div class="row">
-                <div class="col-md-3 text-center products">
-                    <a class="text-decoration-none "
-                        href="detailProduct.php?id=<?= $product['idProduct'] ?>">
-                        <div class="product-items border border-2">
-                            <div class="image-product">
-                                <img class="w-100 mt-1" src="./images/Untitled-2-1.png" alt>
-                            </div>
-                            <div class="name-price text-center">
-                                <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
-                                <p class="fw-bold price fs-5">135.000 VNĐ</p>
-                                <div class="evaluate d-flex justify-content-start mx-5 ">
-                                    <i class="fas fa-star text-warning mt-2 me-1"></i>
-                                    <p class="fw-medium text-dark fs-5">4.5</p>
-                                    <div class="bought d-flex justify-content-start mx-4 mt-1 ">
-                                        <p class=" text-dark fs-6">Đã bán 2.4k</p>
+            <br>
+            <hr style="width: 700px; margin: 0 auto; border: 1px solid #000;">
+            <br>
+            <div class="container my-4">
+                <div class="row">
+                    <div class="col-md-3 text-center products">
+                        <a class="text-decoration-none "
+                            href="detailProduct.php?id=<?= $product['idProduct'] ?>">
+                            <div class="product-items border border-2">
+                                <div class="image-product">
+                                    <img class="w-100 mt-1" src="./images/Untitled-2-1.png" alt>
+                                </div>
+                                <div class="name-price text-center">
+                                    <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
+                                    <p class="fw-bold price fs-5">135.000 VNĐ</p>
+                                    <div class="evaluate d-flex justify-content-start mx-5 ">
+                                        <i class="fas fa-star text-warning mt-2 me-1"></i>
+                                        <p class="fw-medium text-dark fs-5">4.5</p>
+                                        <div class="bought d-flex justify-content-start mx-4 mt-1 ">
+                                            <p class=" text-dark fs-6">Đã bán 2.4k</p>
 
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3 text-center products">
+                        <a class="text-decoration-none "
+                            href="detailProduct.php?id=<?= $product['idProduct'] ?>">
+                            <div class="product-items border border-2">
+                                <div class="image-product">
+                                    <img class="w-100 mt-1" src="./images/Untitled-2-1.png" alt>
+                                </div>
+                                <div class="name-price text-center">
+                                    <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
+                                    <p class="fw-bold price fs-5">135.000 VNĐ</p>
+                                    <div class="evaluate d-flex justify-content-start mx-5 ">
+                                        <i class="fas fa-star text-warning mt-2 me-1"></i>
+                                        <p class="fw-medium text-dark fs-5">4.5</p>
+                                        <div class="bought d-flex justify-content-start mx-4 mt-1 ">
+                                            <p class=" text-dark fs-6">Đã bán 2.4k</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3 text-center products">
+                        <a class="text-decoration-none "
+                            href="detailProduct.php?id=<?= $product['idProduct'] ?>">
+                            <div class="product-items border border-2">
+                                <div class="image-product">
+                                    <img class="w-100 mt-1" src="./images/Untitled-2-1.png" alt>
+                                </div>
+                                <div class="name-price text-center">
+                                    <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
+                                    <p class="fw-bold price fs-5">135.000 VNĐ</p>
+                                    <div class="evaluate d-flex justify-content-start mx-5 ">
+                                        <i class="fas fa-star text-warning mt-2 me-1"></i>
+                                        <p class="fw-medium text-dark fs-5">4.5</p>
+                                        <div class="bought d-flex justify-content-start mx-4 mt-1 ">
+                                            <p class=" text-dark fs-6">Đã bán 2.4k</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3 text-center products">
+                        <a class="text-decoration-none "
+                            href="detailProduct.php?id=<?= $product['idProduct'] ?>">
+                            <div class="product-items border border-2">
+                                <div class="image-product">
+                                    <img class="w-100 mt-1" src="./images/Untitled-2-1.png" alt>
+                                </div>
+                                <div class="name-price text-center">
+                                    <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
+                                    <p class="fw-bold price fs-5">135.000 VNĐ</p>
+                                    <div class="evaluate d-flex justify-content-start mx-5 ">
+                                        <i class="fas fa-star text-warning mt-2 me-1"></i>
+                                        <p class="fw-medium text-dark fs-5">4.5</p>
+                                        <div class="bought d-flex justify-content-start mx-4 mt-1 ">
+                                            <p class=" text-dark fs-6">Đã bán 2.4k</p>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 </div>
-                <div class="col-md-3 text-center products">
-                    <a class="text-decoration-none "
-                        href="detailProduct.php?id=<?= $product['idProduct'] ?>">
-                        <div class="product-items border border-2">
-                            <div class="image-product">
-                                <img class="w-100 mt-1" src="./images/Untitled-2-1.png" alt>
-                            </div>
-                            <div class="name-price text-center">
-                                <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
-                                <p class="fw-bold price fs-5">135.000 VNĐ</p>
-                                <div class="evaluate d-flex justify-content-start mx-5 ">
-                                    <i class="fas fa-star text-warning mt-2 me-1"></i>
-                                    <p class="fw-medium text-dark fs-5">4.5</p>
-                                    <div class="bought d-flex justify-content-start mx-4 mt-1 ">
-                                        <p class=" text-dark fs-6">Đã bán 2.4k</p>
+                <div class="row">
+                    <div class="col-md-3 text-center products">
+                        <a class="text-decoration-none "
+                            href="detailProduct.php?id=<?= $product['idProduct'] ?>">
+                            <div class="product-items border border-2">
+                                <div class="image-product">
+                                    <img class="w-100 mt-1" src="./images/Untitled-2-1.png" alt>
+                                </div>
+                                <div class="name-price text-center">
+                                    <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
+                                    <p class="fw-bold price fs-5">135.000 VNĐ</p>
+                                    <div class="evaluate d-flex justify-content-start mx-5 ">
+                                        <i class="fas fa-star text-warning mt-2 me-1"></i>
+                                        <p class="fw-medium text-dark fs-5">4.5</p>
+                                        <div class="bought d-flex justify-content-start mx-4 mt-1 ">
+                                            <p class=" text-dark fs-6">Đã bán 2.4k</p>
 
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3 text-center products">
-                    <a class="text-decoration-none "
-                        href="detailProduct.php?id=<?= $product['idProduct'] ?>">
-                        <div class="product-items border border-2">
-                            <div class="image-product">
-                                <img class="w-100 mt-1" src="./images/Untitled-2-1.png" alt>
                             </div>
-                            <div class="name-price text-center">
-                                <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
-                                <p class="fw-bold price fs-5">135.000 VNĐ</p>
-                                <div class="evaluate d-flex justify-content-start mx-5 ">
-                                    <i class="fas fa-star text-warning mt-2 me-1"></i>
-                                    <p class="fw-medium text-dark fs-5">4.5</p>
-                                    <div class="bought d-flex justify-content-start mx-4 mt-1 ">
-                                        <p class=" text-dark fs-6">Đã bán 2.4k</p>
+                        </a>
+                    </div>
+                    <div class="col-md-3 text-center products">
+                        <a class="text-decoration-none "
+                            href="detailProduct.php?id=<?= $product['idProduct'] ?>">
+                            <div class="product-items border border-2">
+                                <div class="image-product">
+                                    <img class="w-100 mt-1" src="./images/Untitled-2-1.png" alt>
+                                </div>
+                                <div class="name-price text-center">
+                                    <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
+                                    <p class="fw-bold price fs-5">135.000 VNĐ</p>
+                                    <div class="evaluate d-flex justify-content-start mx-5 ">
+                                        <i class="fas fa-star text-warning mt-2 me-1"></i>
+                                        <p class="fw-medium text-dark fs-5">4.5</p>
+                                        <div class="bought d-flex justify-content-start mx-4 mt-1 ">
+                                            <p class=" text-dark fs-6">Đã bán 2.4k</p>
 
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3 text-center products">
-                    <a class="text-decoration-none "
-                        href="detailProduct.php?id=<?= $product['idProduct'] ?>">
-                        <div class="product-items border border-2">
-                            <div class="image-product">
-                                <img class="w-100 mt-1" src="./images/Untitled-2-1.png" alt>
                             </div>
-                            <div class="name-price text-center">
-                                <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
-                                <p class="fw-bold price fs-5">135.000 VNĐ</p>
-                                <div class="evaluate d-flex justify-content-start mx-5 ">
-                                    <i class="fas fa-star text-warning mt-2 me-1"></i>
-                                    <p class="fw-medium text-dark fs-5">4.5</p>
-                                    <div class="bought d-flex justify-content-start mx-4 mt-1 ">
-                                        <p class=" text-dark fs-6">Đã bán 2.4k</p>
+                        </a>
+                    </div>
+                    <div class="col-md-3 text-center products">
+                        <a class="text-decoration-none "
+                            href="detailProduct.php?id=<?= $product['idProduct'] ?>">
+                            <div class="product-items border border-2">
+                                <div class="image-product">
+                                    <img class="w-100 mt-1" src="./images/Untitled-2-1.png" alt>
+                                </div>
+                                <div class="name-price text-center">
+                                    <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
+                                    <p class="fw-bold price fs-5">135.000 VNĐ</p>
+                                    <div class="evaluate d-flex justify-content-start mx-5 ">
+                                        <i class="fas fa-star text-warning mt-2 me-1"></i>
+                                        <p class="fw-medium text-dark fs-5">4.5</p>
+                                        <div class="bought d-flex justify-content-start mx-4 mt-1 ">
+                                            <p class=" text-dark fs-6">Đã bán 2.4k</p>
 
+                                        </div>
                                     </div>
                                 </div>
+
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
+                    <div class="col-md-3 text-center products">
+                        <a class="text-decoration-none "
+                            href="detailProduct.php?id=<?= $product['idProduct'] ?>">
+                            <div class="product-items border border-2">
+                                <div class="image-product">
+                                    <img class="w-100 mt-1" src="./images/Untitled-2-1.png" alt>
+                                </div>
+                                <div class="name-price text-center">
+                                    <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
+                                    <p class="fw-bold price fs-5">135.000 VNĐ</p>
+                                    <div class="evaluate d-flex justify-content-start mx-5 ">
+                                        <i class="fas fa-star text-warning mt-2 me-1"></i>
+                                        <p class="fw-medium text-dark fs-5">4.5</p>
+                                        <div class="bought d-flex justify-content-start mx-4 mt-1 ">
+                                            <p class=" text-dark fs-6">Đã bán 2.4k</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3 text-center products">
-                    <a class="text-decoration-none "
-                        href="detailProduct.php?id=<?= $product['idProduct'] ?>">
-                        <div class="product-items border border-2">
-                            <div class="image-product">
-                                <img class="w-100 mt-1" src="./images/Untitled-2-1.png" alt>
-                            </div>
-                            <div class="name-price text-center">
-                                <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
-                                <p class="fw-bold price fs-5">135.000 VNĐ</p>
-                                <div class="evaluate d-flex justify-content-start mx-5 ">
-                                    <i class="fas fa-star text-warning mt-2 me-1"></i>
-                                    <p class="fw-medium text-dark fs-5">4.5</p>
-                                    <div class="bought d-flex justify-content-start mx-4 mt-1 ">
-                                        <p class=" text-dark fs-6">Đã bán 2.4k</p>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3 text-center products">
-                    <a class="text-decoration-none "
-                        href="detailProduct.php?id=<?= $product['idProduct'] ?>">
-                        <div class="product-items border border-2">
-                            <div class="image-product">
-                                <img class="w-100 mt-1" src="./images/Untitled-2-1.png" alt>
-                            </div>
-                            <div class="name-price text-center">
-                                <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
-                                <p class="fw-bold price fs-5">135.000 VNĐ</p>
-                                <div class="evaluate d-flex justify-content-start mx-5 ">
-                                    <i class="fas fa-star text-warning mt-2 me-1"></i>
-                                    <p class="fw-medium text-dark fs-5">4.5</p>
-                                    <div class="bought d-flex justify-content-start mx-4 mt-1 ">
-                                        <p class=" text-dark fs-6">Đã bán 2.4k</p>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3 text-center products">
-                    <a class="text-decoration-none "
-                        href="detailProduct.php?id=<?= $product['idProduct'] ?>">
-                        <div class="product-items border border-2">
-                            <div class="image-product">
-                                <img class="w-100 mt-1" src="./images/Untitled-2-1.png" alt>
-                            </div>
-                            <div class="name-price text-center">
-                                <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
-                                <p class="fw-bold price fs-5">135.000 VNĐ</p>
-                                <div class="evaluate d-flex justify-content-start mx-5 ">
-                                    <i class="fas fa-star text-warning mt-2 me-1"></i>
-                                    <p class="fw-medium text-dark fs-5">4.5</p>
-                                    <div class="bought d-flex justify-content-start mx-4 mt-1 ">
-                                        <p class=" text-dark fs-6">Đã bán 2.4k</p>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3 text-center products">
-                    <a class="text-decoration-none "
-                        href="detailProduct.php?id=<?= $product['idProduct'] ?>">
-                        <div class="product-items border border-2">
-                            <div class="image-product">
-                                <img class="w-100 mt-1" src="./images/Untitled-2-1.png" alt>
-                            </div>
-                            <div class="name-price text-center">
-                                <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
-                                <p class="fw-bold price fs-5">135.000 VNĐ</p>
-                                <div class="evaluate d-flex justify-content-start mx-5 ">
-                                    <i class="fas fa-star text-warning mt-2 me-1"></i>
-                                    <p class="fw-medium text-dark fs-5">4.5</p>
-                                    <div class="bought d-flex justify-content-start mx-4 mt-1 ">
-                                        <p class=" text-dark fs-6">Đã bán 2.4k</p>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </a>
-                </div>
+            <div class=" text-center">
+                <button class="hover" style="width: 150px ; height: 50px ;">
+                    VIEW ALL</button>
             </div>
-        </div>
-        <div class=" text-center">
-            <button class="hover" style="width: 150px ; height: 50px ;"
-            >
-                VIEW ALL</button>
-        </div>
-        <br>
+            <br>
         </div>
 
         <br>
@@ -519,8 +518,7 @@
             </div>
         </div>
     </footer>
-    <script src="./js/script.js"></script>
-    <script>
+    <script src="./js/script.js">
         const carouselElement = document.querySelector('#carouselExampleIndicators');
 
 
@@ -531,6 +529,8 @@
 
         carousel.cycle();
     </script>
+
+
 </body>
 
 </html>
