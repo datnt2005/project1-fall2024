@@ -118,6 +118,23 @@ aside .sidebar .sidebar-product-general ul li a:hover {
     width: 100%;
     padding: none;
     margin-bottom: 30px;
+    transition: box-shadow 0.3s ease; /* Smooth transition for the shadow */
+}
+
+li.subcategory a{
+    color: var(--color) !important;
+}
+li.price a{
+    color: var(--color) !important;
+}
+li.price a:hover{
+    color: var(--color-hover) !important;
+}
+li.subcategory{
+    border-bottom: 0.5px solid rgb(226, 226, 226);
+}
+li.subcategory a:hover{
+    color: var(--color-hover) !important;
 }
 
 .product-items:hover {
@@ -180,13 +197,13 @@ footer .internet i:hover {
 
 #cart {
     padding: 30px;
-    color: white;
-    height: 80vh;
+
+
 }
 
 #cart .col-md-9 {
-    border-radius: 10px;
     padding: 30px;
+    border-right: 1px solid #7c7c7c;
 }
 
 .cart-products .image-products {
@@ -234,6 +251,9 @@ footer .internet i:hover {
 
 }
 
+#cart td a p:hover {
+    color: #6b6b6b !important;
+}
 .update-cart button {
     background-color: var(--color);
     border: none;
@@ -352,4 +372,52 @@ footer .internet i:hover {
     padding: 0 10px;
     width: 400px;
     margin-left: 100px;
+}
+
+#contact {
+    color: rgb(24, 24, 24);
+}
+
+#contact form {
+    background-color: var(--color-footer);
+    color: rgb(24, 24, 24);
+}
+#contact form button.contact {
+    border: none;
+    border-radius: 5px;
+    color: rgb(255, 255, 255);
+    margin-left: 70px;
+
+    height: 38px;
+    padding: 0 10px;
+    width: 400px;
+    background-color: var(--color);
+}
+
+#contact form button.contact:hover {
+    background-color: #35ac3fa9;
+}
+
+#contact form input {
+    background-color: rgb(226, 226, 226);
+    color: rgb(24, 24, 24);
+    border: none;
+    padding: 10px;
+}
+#contact form textarea {
+    background-color: rgb(226, 226, 226);
+    color: rgb(24, 24, 24);
+    border: none;
+    padding: 10px;
+}
+
+#contact .icon  {
+    width: 80px;
+    height: 80px;
+    margin: auto;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(243, 243, 243);
 }
