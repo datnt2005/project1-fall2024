@@ -20,19 +20,19 @@ function formatCurrencyVND($number)
 {
     return number_format($number, 0, ',', '.') . 'đ';
 }
+
+// Fetch all products with images (no LIMIT in subquery)
 $listProducts = $dbHelper->select("
-    SELECT PR.*,
+    SELECT PR.*, 
         SUM(PS.quantityProduct) AS total_quantity, 
         PS.price AS price,
-        (SELECT PI.namePicProduct
+        (SELECT GROUP_CONCAT(PI.namePicProduct)
          FROM picproduct PI
          WHERE PI.idProduct = PR.idProduct
-         ORDER BY PI.idPicProduct
-         LIMIT 1) AS namePicProduct
+         ORDER BY PI.idPicProduct) AS namePicProduct
     FROM products PR
     INNER JOIN product_size PS ON PR.idProduct = PS.idProduct
     GROUP BY PR.idProduct
-    LIMIT 8
 ");
 
 // Fetch user data
@@ -59,10 +59,10 @@ $_SESSION['idProduct'] = $idProduct;
 // Optionally handle search term (though it's not used in the current query)
 $searchTerm = isset($_GET['search']) ? trim($_GET['search']) : "";
 
-// Fetch product data with related sizes
+// Fetch product data with related sizes (without LIMIT for namePicProduct)
 $listProducts = $dbHelper->select(
     "SELECT PR.*, prs.*, sz.*, 
-    (SELECT namePicProduct FROM picproduct WHERE idProduct = PR.idProduct LIMIT 1) AS namePicProduct
+    (SELECT GROUP_CONCAT(namePicProduct) FROM picproduct WHERE idProduct = PR.idProduct) AS namePicProduct
     FROM products PR
     INNER JOIN product_size prs ON PR.idProduct = prs.idProduct
     INNER JOIN sizes sz ON sz.idSize = prs.idSize
@@ -82,6 +82,7 @@ var_dump($listProducts);
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -99,6 +100,13 @@ var_dump($listProducts);
     <script src="https://kit.fontawesome.com/1d3d4a43fd.js"
         crossorigin="anonymous"></script>
 </head>
+<style>
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        filter: invert(100%);
+        /* Đổi biểu tượng thành màu đen */
+    }
+</style>
 
 <body>
     <header class="header">
@@ -166,78 +174,103 @@ var_dump($listProducts);
     <main class="container my-4">
 
         <div class="row">
-            <div class="col-md-6">
-                <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <?php
-                        $firstItem = true; // To mark the first carousel item as active
-                        foreach ($listProducts as $product) {
-                            $productImage = '../admin/products/image/' . $product['namePicProduct']; // Assuming the product image is stored in the 'namePicProduct' field.
-                        ?>
-                            <div class="carousel-item <?php echo $firstItem ? 'active' : ''; ?>">
-                                <img src="<?php echo $productImage; ?>" class="d-block w-100" alt="Sản phẩm">
-                            </div>
-                        <?php
-                            $firstItem = false; // Set the first item as non-active after it's rendered
-                        }
-                        ?>
-
-                        <!-- Add two additional images manually -->
-                        <div class="carousel-item">
-                            <img src="../admin/products/image/your_image_1.jpg" class="d-block w-100" alt="Additional Image 1">
-                        </div>
+        <div class="col-md-6">
+    <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
         
-                </div>
-
-
-                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Trở lại</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Tiếp theo</span>
-                </button>
-            </div>
+        <!-- Carousel Indicators for Thumbnails -->
+        <div class="carousel-indicators">
+            <?php
+            $slideIndex = 0;
+            foreach ($listProducts as $product) {
+                $images = explode(',', $product['namePicProduct']);
+                foreach ($images as $image) {
+                    $thumbnailImage = '../admin/products/image/' . trim($image);
+                    ?>
+                    <img 
+                        src="<?php echo $thumbnailImage; ?>" 
+                        data-bs-target="#productCarousel" 
+                        data-bs-slide-to="<?php echo $slideIndex; ?>" 
+                        class="img-thumbnail <?php echo $slideIndex === 0 ? 'active' : ''; ?>" 
+                        style="width: 60px; height: 60px; cursor: pointer;"
+                        alt="Thumbnail">
+                    <?php
+                    $slideIndex++;
+                }
+            }
+            ?>
         </div>
 
-        <div class="col-md-6">
-            <?php foreach ($listProducts as $product) { ?>
-                <div class="product-item">
-                    <h2><?php echo $product['nameProduct']; ?></h2>
-                    <p class="text-danger" style="font-size: 24px;">
-                        Giá: <?php echo formatCurrencyVND($product['price']); ?>
-                    </p>
-                    <div class="col-my-3">
-                        <h4>Mô tả sản phẩm</h4>
-                        <p><?php echo $product['description']; ?></p>
+        <!-- Carousel Inner for Main Images -->
+        <div class="carousel-inner">
+            <?php
+            $firstItem = true;
+            foreach ($listProducts as $product) {
+                $images = explode(',', $product['namePicProduct']);
+                foreach ($images as $image) {
+                    $productImage = '../admin/products/image/' . trim($image);
+                    ?>
+                    <div class="carousel-item <?php echo $firstItem ? 'active' : ''; ?>">
+                        <img src="<?php echo $productImage; ?>" class="d-block w-100" alt="Product Image">
+                    </div>
+                    <?php
+                    $firstItem = false;
+                }
+            }
+            ?>
+        </div>
+
+        <!-- Carousel Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Trở lại</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Tiếp theo</span>
+        </button>
+    </div>
+</div>
+
+            <div class="col-md-6">
+                <?php foreach ($listProducts as $product) { ?>
+                    <div class="product-item">
+                        <h2><?php echo $product['nameProduct']; ?></h2>
+                        <p class="text-danger" style="font-size: 24px;">
+                            Giá: <?php echo formatCurrencyVND($product['price']); ?>
+                        </p>
+                        <div class="col-my-3">
+                            <h4>Mô tả sản phẩm</h4>
+                            <p><?php echo $product['description']; ?></p>
+                        </div>
+                    </div>
+                <?php } ?>
+
+                <div class="col-md-3">
+                    <label for="size" class="form-label">Phân Loại (Size)</label>
+
+                    <select id="size" class="form-select" style="width: 120px;">
+                        <?php foreach ($listProducts as $productsize) { ?>
+                            <option value="<?php echo $productsize['nameSize']; ?>"><?php echo $productsize['nameSize']; ?></option>
+                        <?php } ?>
+                    </select>
+
+
+                </div>
+
+                <div class="col-md-3">
+                    <label for="quantity" class="form-label">Số lượng</label>
+                    <div class="input-group" style="width: 120px;">
+                        <button class="btn btn-outline-secondary" type="button" onclick="decreaseQuantity()">-</button>
+                        <input type="number" id="quantity" class="form-control text-center" value="1" min="1" readonly style="width: 50px;">
+                        <button class="btn btn-outline-secondary" type="button" onclick="increaseQuantity()">+</button>
                     </div>
                 </div>
-            <?php } ?>
-
-            <div class="col-md-3">
-                <label for="size" class="form-label">Phân Loại (Size)</label>
-
-                <select id="size" class="form-select" style="width: 120px;">
-                    <?php foreach ($listProducts as $productsize) { ?>
-                        <option value="<?php echo $productsize['nameSize']; ?>"><?php echo $productsize['nameSize']; ?></option>
-                    <?php } ?>
-                </select>
-
-
+                <br>
+                <button class="btn btn-primary">Thêm vào giỏ hàng</button>
             </div>
-
-            <div class="col-md-3">
-                <label for="quantity" class="form-label">Số lượng</label>
-                <div class="input-group" style="width: 120px;">
-                    <button class="btn btn-outline-secondary" type="button" onclick="decreaseQuantity()">-</button>
-                    <input type="number" id="quantity" class="form-control text-center" value="1" min="1" readonly style="width: 50px;">
-                    <button class="btn btn-outline-secondary" type="button" onclick="increaseQuantity()">+</button>
-                </div>
-            </div>
-            <br>
-            <button class="btn btn-primary">Thêm vào giỏ hàng</button>
         </div>
+
+
 
         </div>
         <hr>
