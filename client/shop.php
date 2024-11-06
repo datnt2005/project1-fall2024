@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -104,186 +105,38 @@
                                 </div>
                             </div>
                             <div class="row mt-5">
-                                <div class="col-md-4 text-center products">
-                                    <a class="text-decoration-none "
-                                        href="detailProduct.php?id=<?= $product['idProduct'] ?>">
-                                        <div class="product-items border border-2">
-                                            <div class="image-product">
-                                                <img class="w-100 mt-1" src="./images/Untitled-2-1.png" alt>
+                            <?php foreach ($listProducts as $product) { ?>
+                            <div class="col-md-4 text-center products">
+                                <a class="text-decoration-none" href="detailProduct.php?id=<?= $product['idProduct'] ?>">
+                                    <div class="product-items border border-2 position-relative">
+                                        <div class="image-product position-relative">
+                                            <img class="w-100 mt-1 main-image" src="../admin/products/image/<?= $product['namePicProduct'] ?>"
+                                                alt="Hình ảnh sản phẩm">
+                                            <img class="w-100 mt-1 hover-image" src="./images/icon/anh_hat_dieu.jpg"
+                                                alt="Hình ảnh thay thế">
+                                            <div class="action-buttons d-flex justify-content-center align-items-center">
+                                                <button class="btn-custom me-2">Mua Ngay</button>
+                                                <button class="btn btn-secondary">
+                                                    <i class="fas fa-shopping-cart"></i>
+                                                </button>
                                             </div>
-                                            <div class="name-price text-center">
-                                                <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
-                                                <p class="fw-bold price fs-5">135.000 VNĐ</p>
-                                                <div class="evaluate d-flex justify-content-start px-5 ">
-                                                    <i class="fas fa-star text-warning mt-2 me-1 mx-2"></i>
-                                                    <p class="fw-medium text-dark fs-5">4.5</p>
-                                                 <div class="bought d-flex justify-content-start mx-4 mt-1 ">
-                                                    <p class=" text-dark fs-6">Đã bán 2.4k</p>
-
-                                                </div>   
+                                        </div>
+                                        <div class="name-price text-center">
+                                            <span class="text-dark fw-bold fs-5"><?= $product['nameProduct'] ?></span>
+                                            <p class="fw-bold price fs-5"><?= formatCurrencyVND($product['price']) ?></p>
+                                            <div class="evaluate d-flex justify-content-start mx-5">
+                                                <i class="fas fa-star text-warning mt-2 me-1"></i>
+                                                <p class="fw-medium text-dark fs-5">4.5</p>
+                                                <div class="bought d-flex justify-content-start mx-4 mt-1">
+                                                    <p class="text-dark fs-6">Đã bán <?= $product['total_quantity'] ?>k</p>
                                                 </div>
                                             </div>
-                                            
                                         </div>
-                                    </a>
-                                </div>
-                                <div class="col-md-4 text-center products">
-                                    <a class="text-decoration-none "
-                                        href="detailProduct.php?id=<?= $product['idProduct'] ?>">
-                                        <div class="product-items border border-2">
-                                            <div class="image-product">
-                                                <img class="w-100 mt-2" src="./images/Untitled-2-1.png" alt>
-                                            </div>
-                                            <div class="name-price text-center">
-                                                <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
-                                                <p class="fw-bold price pt-2 fs-5">135.000 VNĐ</p>
-                                            </div>
-                                            <!-- <div class="add-cart display-block">
-                                                    <button type="button"
-                                                        class="btn btn-primary">Mua
-                                                        hàng</button>
-                                                </div> -->
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-md-4 text-center products">
-                                    <a class="text-decoration-none "
-                                        href="detailProduct.php?id=<?= $product['idProduct'] ?>">
-                                        <div class="product-items border border-2">
-                                            <div class="image-product">
-                                                <img class="w-100 mt-2" src="./images/Untitled-2-1.png" alt>
-                                            </div>
-                                            <div class="name-price text-center">
-                                                <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
-                                                <p class="fw-bold price pt-2 fs-5">135.000 VNĐ</p>
-                                            </div>
-                                            <!-- <div class="add-cart display-block">
-                                                    <button type="button"
-                                                        class="btn btn-primary">Mua
-                                                        hàng</button>
-                                                </div> -->
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-md-4 text-center products">
-                                    <a class="text-decoration-none "
-                                        href="detailProduct.php?id=<?= $product['idProduct'] ?>">
-                                        <div class="product-items border border-2">
-                                            <div class="image-product">
-                                                <img class="w-100 mt-2" src="./images/Untitled-2-1.png" alt>
-                                            </div>
-                                            <div class="name-price text-center">
-                                                <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
-                                                <p class="fw-bold price pt-2 fs-5">135.000 VNĐ</p>
-                                            </div>
-                                            <!-- <div class="add-cart display-block">
-                                                    <button type="button"
-                                                        class="btn btn-primary">Mua
-                                                        hàng</button>
-                                                </div> -->
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-md-4 text-center products">
-                                    <a class="text-decoration-none "
-                                        href="detailProduct.php?id=<?= $product['idProduct'] ?>">
-                                        <div class="product-items border border-2">
-                                            <div class="image-product">
-                                                <img class="w-100 mt-2" src="./images/Untitled-2-1.png" alt>
-                                            </div>
-                                            <div class="name-price text-center">
-                                                <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
-                                                <p class="fw-bold price pt-2 fs-5">135.000 VNĐ</p>
-                                            </div>
-                                            <!-- <div class="add-cart display-block">
-                                                    <button type="button"
-                                                        class="btn btn-primary">Mua
-                                                        hàng</button>
-                                                </div> -->
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-md-4 text-center products">
-                                    <a class="text-decoration-none "
-                                        href="detailProduct.php?id=<?= $product['idProduct'] ?>">
-                                        <div class="product-items border border-2">
-                                            <div class="image-product">
-                                                <img class="w-100 mt-2" src="./images/Untitled-2-1.png" alt>
-                                            </div>
-                                            <div class="name-price text-center">
-                                                <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
-                                                <p class="fw-bold price pt-2 fs-5">135.000 VNĐ</p>
-                                            </div>
-                                            <!-- <div class="add-cart display-block">
-                                                    <button type="button"
-                                                        class="btn btn-primary">Mua
-                                                        hàng</button>
-                                                </div> -->
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-md-4 text-center products">
-                                    <a class="text-decoration-none "
-                                        href="detailProduct.php?id=<?= $product['idProduct'] ?>">
-                                        <div class="product-items border border-2">
-                                            <div class="image-product">
-                                                <img class="w-100 mt-2" src="./images/Untitled-2-1.png" alt>
-                                            </div>
-                                            <div class="name-price text-center">
-                                                <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
-                                                <p class="fw-bold price pt-2 fs-5">135.000 VNĐ</p>
-                                            </div>
-                                            <!-- <div class="add-cart display-block">
-                                                    <button type="button"
-                                                        class="btn btn-primary">Mua
-                                                        hàng</button>
-                                                </div> -->
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-md-4 text-center products">
-                                    <a class="text-decoration-none "
-                                        href="detailProduct.php?id=<?= $product['idProduct'] ?>">
-                                        <div class="product-items border border-2">
-                                            <div class="image-product">
-                                                <img class="w-100 mt-2" src="./images/Untitled-2-1.png" alt>
-                                            </div>
-                                            <div class="name-price text-center">
-                                                <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
-                                                <p class="fw-bold price pt-2 fs-5">135.000 VNĐ</p>
-                                            </div>
-                                            <!-- <div class="add-cart display-block">
-                                                    <button type="button"
-                                                        class="btn btn-primary">Mua
-                                                        hàng</button>
-                                                </div> -->
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-md-4 text-center products">
-                                    <a class="text-decoration-none "
-                                        href="detailProduct.php?id=<?= $product['idProduct'] ?>">
-                                        <div class="product-items border border-2">
-                                            <div class="image-product">
-                                                <img class="w-100 mt-2" src="./images/Untitled-2-1.png" alt>
-                                            </div>
-                                            <div class="name-price text-center">
-                                                <span class="text-dark fw-bold fs-5">Hạt dẻ cười</span>
-                                                <p class="fw-bold price pt-2 fs-5">135.000 VNĐ</p>
-                                            </div>
-                                            <!-- <div class="add-cart display-block">
-                                                    <button type="button"
-                                                        class="btn btn-primary">Mua
-                                                        hàng</button>
-                                                </div> -->
-                                        </div>
-                                    </a>
-                                </div>
-                                
+                                    </div>
+                                </a>
                             </div>
-                        </div>
+                        <?php } ?>
                     </div>
-                </div>
             </div>
     </main>
 

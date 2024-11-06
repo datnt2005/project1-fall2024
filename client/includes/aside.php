@@ -4,7 +4,23 @@ include "./DBUntil.php";
 $dbHelper = new DBUntil();
 $categories = $dbHelper->select("SELECT * FROM categories");
 $subCategories = $dbHelper->select("SELECT * FROM subcategory INNER JOIN categories ON subcategory.idCategory = categories.idCategory");
+function formatCurrencyVND($number) {
+    // Sử dụng number_format để định dạng số tiền mà không có phần thập phân
+    return number_format($number, 0, ',', '.') . 'đ';
+} 
+
+$listProducts = $dbHelper->select("SELECT PR.*,
+SUM(PS.quantityProduct) AS total_quantity, PS.price AS price,
+    (SELECT PI.namePicProduct
+    FROM picproduct PI
+    WHERE PI.idProduct = PR.idProduct
+    ORDER BY PI.idPicProduct
+    LIMIT 1) AS namePicProduct
+FROM products PR
+INNER JOIN product_size PS ON PR.idProduct = PS.idProduct
+GROUP BY PR.idProduct");
 ?>
+
 <aside class="sidebar">
     <div class="sidebar">
         <div class="sidebar-product-general pt-4 ">
