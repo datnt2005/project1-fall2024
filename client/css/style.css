@@ -421,3 +421,32 @@ footer .internet i:hover {
     align-items: center;
     background-color: rgb(243, 243, 243);
 }
+.forgot-main {
+    border: 2px solid #69BA31; /* Viền xanh lá */
+    box-shadow: 0 0 15px rgba(40, 167, 69, 0.5); /* Shadow xanh lá nhạt */
+    border-radius: 10px;
+    padding: 20px;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Hiệu ứng viền sáng xanh lá khi focus vào các trường nhập liệu */
+.value-forgot {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hiệu ứng khi người dùng tương tác với input */
+.value-forgot:focus {
+    box-shadow: 0 0 8px rgba(40, 167, 69, 0.5);
+    outline: none;
+}
+
+/* Tùy chỉnh nút cập nhật */
+.btn-login {
+    background-color: #28a745; /* Màu nền xanh lá */
+    color: white;
+    font-weight: bold;
+}
