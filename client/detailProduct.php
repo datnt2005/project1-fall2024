@@ -13,7 +13,7 @@ $role = $_SESSION['role'] ?? null;
 $dbHelper = new DBUntil();
 
 // Hardcode the user ID (for testing) or use $_SESSION['idUser'] if the user is logged in
-$idUser = 1; // $_SESSION['idUser'] ?? 1;
+$idUser = $_SESSION['idUser'] ?? 1;
 
 // Function to format numbers as currency (VND)
 function formatCurrencyVND($number)
@@ -21,23 +21,8 @@ function formatCurrencyVND($number)
     return number_format($number, 0, ',', '.') . 'đ';
 }
 
-// Fetch all products with images (no LIMIT in subquery)
-$listProducts = $dbHelper->select("
-    SELECT PR.*, 
-        SUM(PS.quantityProduct) AS total_quantity, 
-        PS.price AS price,
-        (SELECT GROUP_CONCAT(PI.namePicProduct)
-         FROM picproduct PI
-         WHERE PI.idProduct = PR.idProduct
-         ORDER BY PI.idPicProduct) AS namePicProduct
-    FROM products PR
-    INNER JOIN product_size PS ON PR.idProduct = PS.idProduct
-    GROUP BY PR.idProduct
-");
-
 // Fetch user data
 $users = $dbHelper->select("SELECT * FROM users WHERE idUser = ?", array($idUser));
-
 if (empty($users)) {
     echo "User not found.";
     exit;
@@ -47,22 +32,17 @@ $image = $users[0]['image'];
 $name = $users[0]['name'];
 
 // Get the product ID from the URL and check if it's set
-$idProduct = isset($_GET['id']) ? $_GET['id'] : null;
-
+$idProduct = $_GET['id'] ?? null;
 if (!$idProduct) {
     echo "Product ID not found.";
     exit;
 }
 
-$_SESSION['idProduct'] = $idProduct;
-
-// Optionally handle search term (though it's not used in the current query)
-$searchTerm = isset($_GET['search']) ? trim($_GET['search']) : "";
-
 // Fetch product data with related sizes (without LIMIT for namePicProduct)
 $listProducts = $dbHelper->select(
     "SELECT PR.*, prs.*, sz.*, 
-    (SELECT GROUP_CONCAT(namePicProduct) FROM picproduct WHERE idProduct = PR.idProduct) AS namePicProduct
+    (SELECT GROUP_CONCAT(namePicProduct) FROM picproduct WHERE idProduct = PR.idProduct) AS namePicProduct,
+    prs.quantityProduct AS total_quantity
     FROM products PR
     INNER JOIN product_size prs ON PR.idProduct = prs.idProduct
     INNER JOIN sizes sz ON sz.idSize = prs.idSize
@@ -70,16 +50,13 @@ $listProducts = $dbHelper->select(
     array($idProduct)
 );
 
+
 if (empty($listProducts)) {
     echo "No products found for the given ID.";
     exit;
 }
 
-// Debugging output (optional)
-var_dump($listProducts);
-
-// Further processing or HTML output can go here
-
+// HTML output for size selection
 ?>
 
 
@@ -176,26 +153,24 @@ var_dump($listProducts);
         <div class="row">
         <div class="col-md-6">
     <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
-        
+
         <!-- Carousel Indicators for Thumbnails -->
         <div class="carousel-indicators">
             <?php
             $slideIndex = 0;
-            foreach ($listProducts as $product) {
-                $images = explode(',', $product['namePicProduct']);
-                foreach ($images as $image) {
-                    $thumbnailImage = '../admin/products/image/' . trim($image);
-                    ?>
-                    <img 
-                        src="<?php echo $thumbnailImage; ?>" 
-                        data-bs-target="#productCarousel" 
-                        data-bs-slide-to="<?php echo $slideIndex; ?>" 
-                        class="img-thumbnail <?php echo $slideIndex === 0 ? 'active' : ''; ?>" 
-                        style="width: 60px; height: 60px; cursor: pointer;"
-                        alt="Thumbnail">
-                    <?php
-                    $slideIndex++;
-                }
+            $images = explode(',', $listProducts[0]['namePicProduct']);
+            foreach ($images as $image) {
+                $thumbnailImage = '../admin/products/image/' . trim($image);
+            ?>
+                <img
+                    src="<?php echo $thumbnailImage; ?>"
+                    data-bs-target="#productCarousel"
+                    data-bs-slide-to="<?php echo $slideIndex; ?>"
+                    class="img-thumbnail <?php echo $slideIndex === 0 ? 'active' : ''; ?>"
+                    style="width: 60px; height: 60px; cursor: pointer;"
+                    alt="Thumbnail">
+            <?php
+                $slideIndex++;
             }
             ?>
         </div>
@@ -204,17 +179,14 @@ var_dump($listProducts);
         <div class="carousel-inner">
             <?php
             $firstItem = true;
-            foreach ($listProducts as $product) {
-                $images = explode(',', $product['namePicProduct']);
-                foreach ($images as $image) {
-                    $productImage = '../admin/products/image/' . trim($image);
-                    ?>
-                    <div class="carousel-item <?php echo $firstItem ? 'active' : ''; ?>">
-                        <img src="<?php echo $productImage; ?>" class="d-block w-100" alt="Product Image">
-                    </div>
-                    <?php
-                    $firstItem = false;
-                }
+            foreach ($images as $image) {
+                $productImage = '../admin/products/image/' . trim($image);
+            ?>
+                <div class="carousel-item <?php echo $firstItem ? 'active' : ''; ?>">
+                    <img src="<?php echo $productImage; ?>" class="d-block w-100" alt="Product Image">
+                </div>
+            <?php
+                $firstItem = false;
             }
             ?>
         </div>
@@ -231,43 +203,50 @@ var_dump($listProducts);
     </div>
 </div>
 
-            <div class="col-md-6">
-                <?php foreach ($listProducts as $product) { ?>
-                    <div class="product-item">
-                        <h2><?php echo $product['nameProduct']; ?></h2>
-                        <p class="text-danger" style="font-size: 24px;">
-                            Giá: <?php echo formatCurrencyVND($product['price']); ?>
-                        </p>
-                        <div class="col-my-3">
-                            <h4>Mô tả sản phẩm</h4>
-                            <p><?php echo $product['description']; ?></p>
-                        </div>
-                    </div>
-                <?php } ?>
+<div class="col-md-6">
+    <?php 
+    // Display only the first product
+    $product = $listProducts[0];
+    ?>
+    <div class="product-item">
+        <h2><?php echo $product['nameProduct']; ?></h2>
+        <p class="text-danger" style="font-size: 24px;">
+            Giá: <?php echo formatCurrencyVND($product['price']); ?>
+        </p>
+        <div class="col-my-3">
+            <h4>Mô tả sản phẩm</h4>
+            <p><?php echo $product['description']; ?></p>
+        </div>
+    </div>
 
-                <div class="col-md-3">
-                    <label for="size" class="form-label">Phân Loại (Size)</label>
+    <div class="col-md-3">
+        <label for="size" class="form-label">Phân Loại (Size)</label>
+        <select id="size" class="form-select" style="width: 120px;" onchange="updatePrice()">
+            <?php foreach ($listProducts as $productsize) { ?>
+                <option value="<?php echo htmlspecialchars($productsize['nameSize']); ?>" 
+                        data-price="<?php echo htmlspecialchars($productsize['price']); ?>">
+                    <?php echo htmlspecialchars($productsize['nameSize']); ?>
+                </option>
+            <?php } ?>
+        </select>
+    </div>
 
-                    <select id="size" class="form-select" style="width: 120px;">
-                        <?php foreach ($listProducts as $productsize) { ?>
-                            <option value="<?php echo $productsize['nameSize']; ?>"><?php echo $productsize['nameSize']; ?></option>
-                        <?php } ?>
-                    </select>
-
-
-                </div>
-
-                <div class="col-md-3">
-                    <label for="quantity" class="form-label">Số lượng</label>
-                    <div class="input-group" style="width: 120px;">
-                        <button class="btn btn-outline-secondary" type="button" onclick="decreaseQuantity()">-</button>
-                        <input type="number" id="quantity" class="form-control text-center" value="1" min="1" readonly style="width: 50px;">
-                        <button class="btn btn-outline-secondary" type="button" onclick="increaseQuantity()">+</button>
-                    </div>
-                </div>
-                <br>
-                <button class="btn btn-primary">Thêm vào giỏ hàng</button>
+    <div class="col-md-6">
+        <div class="col-md-3">
+            <label for="quantity" class="form-label">Số lượng</label>
+            <div class="input-group" style="width: 160px;">
+                <button class="btn btn-outline-secondary" type="button" onclick="decreaseQuantity(<?php echo $product['idProduct'] ?>)">-</button>
+                <input type="number" id="quantity_<?php echo $product['idProduct'] ?>" class="form-control text-center" value="1" min="1" style="width: 70px; font-size: 16px; padding: 5px;" data-max-quantity="<?php echo $product['total_quantity'] ?>" onchange="validateQuantity(<?php echo $product['idProduct'] ?>)">
+                <button class="btn btn-outline-secondary" type="button" onclick="increaseQuantity(<?php echo $product['idProduct'] ?>)">+</button>
             </div>
+        </div>
+        <div id="quantity-error-<?php echo $product['idProduct'] ?>" class="text-danger ms-2" style="font-size: 15px; display: none; white-space: nowrap;">Không thể chọn số lượng vượt quá số lượng trong kho.</div>
+    </div>
+    <br>
+    <a href="cart.php?id=<?php echo $product['idProduct']; ?>&size=<?php echo $product['nameSize']; ?>&quantity=" id="add-to-cart-<?php echo $product['idProduct']; ?>" class="btn btn-primary">Thêm vào giỏ hàng</a>
+</div>
+
+
         </div>
 
 
@@ -488,19 +467,81 @@ var_dump($listProducts);
 
 </html>
 <script>
-    function increaseQuantity() {
-        const quantityInput = document.getElementById("quantity");
-        let quantity = parseInt(quantityInput.value);
-        quantityInput.value = quantity + 1;
+    function updatePrice() {
+        // Get the selected size option
+        const sizeSelect = document.getElementById('size');
+        const selectedOption = sizeSelect.options[sizeSelect.selectedIndex];
+
+        // Get the price from the selected option's data attribute
+        const newPrice = selectedOption.getAttribute('data-price');
+
+        // Update the price display
+        const priceElement = document.querySelector('.product-item .text-danger');
+        priceElement.innerHTML = 'Giá: ' + formatCurrencyVND(newPrice);
     }
 
-    function decreaseQuantity() {
-        const quantityInput = document.getElementById("quantity");
-        let quantity = parseInt(quantityInput.value);
-        if (quantity > 1) {
-            quantityInput.value = quantity - 1;
-        }
+    // Helper function to format the currency (VND)
+    function formatCurrencyVND(number) {
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
     }
+</script>
+
+<script>
+    
+    function decreaseQuantity(productId) {
+    var quantityInput = document.getElementById('quantity_' + productId);
+    var currentQuantity = parseInt(quantityInput.value);
+    var maxQuantity = parseInt(quantityInput.getAttribute('data-max-quantity'));
+
+    // Decrease quantity if greater than 1
+    if (currentQuantity > 1) {
+        quantityInput.value = currentQuantity - 1;
+    }
+
+    // Hide error message when quantity is adjusted
+    document.getElementById('quantity-error-' + productId).style.display = 'none';
+}
+
+function increaseQuantity(productId) {
+    var quantityInput = document.getElementById('quantity_' + productId);
+    var currentQuantity = parseInt(quantityInput.value);
+    var maxQuantity = parseInt(quantityInput.getAttribute('data-max-quantity'));
+
+    // Increase quantity if less than max quantity
+    if (currentQuantity < maxQuantity) {
+        quantityInput.value = currentQuantity + 1;
+    }
+
+    // Show error message if quantity exceeds max
+    toggleQuantityError(productId, currentQuantity, maxQuantity);
+}
+
+// Function to toggle error message display based on quantity input
+function toggleQuantityError(productId, currentQuantity, maxQuantity) {
+    var quantityError = document.getElementById('quantity-error-' + productId);
+    if (currentQuantity >= maxQuantity) {
+        quantityError.style.display = 'block';  // Show error if over max
+    } else {
+        quantityError.style.display = 'none';   // Hide error if within bounds
+    }
+}
+
+// Ensure quantity doesn't exceed max when user types in the input field
+function validateQuantity(productId) {
+    var quantityInput = document.getElementById('quantity_' + productId);
+    var quantityError = document.getElementById('quantity-error-' + productId);
+    var currentQuantity = parseInt(quantityInput.value);
+    var maxQuantity = parseInt(quantityInput.getAttribute('data-max-quantity'));
+
+    // If the quantity exceeds the stock, set it to the max available quantity
+    if (currentQuantity > maxQuantity) {
+        quantityInput.value = maxQuantity;  // Set to max stock
+        quantityError.style.display = 'block'; // Show error message
+    } else {
+        quantityError.style.display = 'none';  // Hide error message if within limits
+    }
+}
+
 </script>
 <script>
     function addReview() {
