@@ -15,7 +15,7 @@ $idProduct = $_GET['id'];
     $picProduct = $dbHelper->delete("picproduct", "idProduct = $idProduct");
 
     // Xóa các bản ghi trong bảng product_size_color
-    $product_size_color = $dbHelper->delete("product_size_color", "idProduct = $idProduct");
+    $product_size_color = $dbHelper->delete("product_size", "idProduct = $idProduct");
 
     // Xóa sản phẩm trong bảng products
     $product = $dbHelper->delete("products", "idProduct = $idProduct");

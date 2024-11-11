@@ -1,0 +1,105 @@
+
+     .image-product {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-product img {
+            transition: opacity 0.3s ease;
+        }
+
+        .hover-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .image-product:hover .main-image {
+            opacity: 0;
+            /* Ẩn hình ảnh chính */
+        }
+
+        .image-product:hover .hover-image {
+            opacity: 1;
+            /* Hiện hình ảnh thay thế */
+
+        }
+
+        .action-buttons {
+
+            position: absolute;
+            bottom: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+
+        }
+
+        .image-product:hover .action-buttons {
+            opacity: 1;
+        }
+
+        .btn-custom {
+            background-color: #0f7b18a9;
+            /* Màu nền */
+            color: white;
+            /* Màu chữ */
+            border: 2px solid #35ac3fa9;
+            /* Viền màu sắc tương ứng */
+            border-radius: 5px;
+            /* Đường cong cho viền */
+            transition: background-color 0.5s, border-color 0.5s;
+            /* Hiệu ứng chuyển đổi */
+            width: 100px;
+            height: 40px;
+        }
+
+        .btn-custom:hover {
+            background-color: #000000;
+            /* Màu nền khi hover */
+            border-color: #000000;
+            /* Thay đổi màu viền khi hover */
+        }
+        .product-item {
+    position: relative;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.product-item:hover {
+    transform: scale(1.1); /* Scales the product item */
+    background-color: #f0f0f0; /* Change background color on hover */
+}
+
+.product-item img {
+    transition: transform 0.3s ease;
+}
+
+.product-item:hover img {
+    transform: scale(1.1); /* Slightly zooms in the image */
+}
+
+.product-item p {
+    transition: color 0.3s ease;
+}
+
+.product-item:hover p {
+    color: #0f7b18; /* Change text color on hover */
+}
+.btn-view-all {
+        background-color: #F3EFEF;
+        border: 1px solid #ccc;
+        color: #333;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .btn-view-all:hover {
+        background-color: #0f7b18a9;
+        color: white;
+    }

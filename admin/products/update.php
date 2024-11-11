@@ -7,7 +7,7 @@ $idProduct = $_GET['id'];
 $listProduct = $dbHelper->select("SELECT PR.*,
         SUM(SC.quantityProduct) AS total_quantity
         FROM products PR
-        INNER JOIN product_size_color SC ON PR.idProduct = SC.idProduct
+        INNER JOIN product_size SC ON PR.idProduct = SC.idProduct
         WHERE PR.idProduct = ?", [$idProduct])[0];
 $nameProduct = "";
 $price = "";
@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ];
 
         $product = $dbHelper->update("products", $data, "idProduct = $idProduct");
-        $quantityProduct = $dbHelper->update("product_size_color", $quantity, "idProduct = $idProduct");
+        $quantityProduct = $dbHelper->update("product_size", $quantity, "idProduct = $idProduct");
         $_SESSION['success'] = "Bạn đã cập nhật thành công";
         header("Location: list.php");
     }
