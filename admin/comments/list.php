@@ -119,5 +119,4 @@ foreach ($listComment as $picComment) {
         <!-- /#page-content-wrapper -->
     </div>
 </body>
-<?php include "../includes/footer.php" ?>
 </html>

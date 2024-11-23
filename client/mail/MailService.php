@@ -7,17 +7,17 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 //Load Composer's autoloader
-
+require_once './user.php';
 require 'vendor/autoload.php';
 // require 'PHPMailer/src/Exception.php';
 // require 'PHPMailer/src/PHPMailer.php';
 // require 'PHPMailer/src/SMTP.php';
 
-define('USERNAME_EMAIL', 'fourprincesshop@gmail.com'); // thay bằng email của các bạn
-define('PASSWORD_EMAIL', 'xqwyykgfoquihyes'); // thay bằng password của các bạn
+define('USERNAME_EMAIL', 'vuahatdinhduongngon@gmail.com'); // thay bằng email của các bạn
+define('PASSWORD_EMAIL', 'awarczolkewoknsw'); // thay bằng password của các bạn
 class MailService
 {
-    public static function send($from = 'fourprincesshop@gmail.com', $to = 'fourprincesshop@gmail.com', $subject = 'notfication', $content = '')
+    public static function send($from = 'vuahatdinhduongngon@gmail.com', $to = 'phatttpk03754@gmail.com', $subject = 'notfication', $content = '')
     {
         try {
             $mail = new PHPMailer();
@@ -32,7 +32,7 @@ class MailService
             $mail->CharSet = 'UTF-8';
             //Recipients
 
-            $mail->setFrom($to, 'PrincesShop');
+            $mail->setFrom($to, 'Vua hạt');
             $mail->addAddress($from);               // Name is optional
             // $mail->addReplyTo('info@example.com', 'Information');
             // $mail->addCC('cc@example.com');
@@ -42,6 +42,7 @@ class MailService
 
             //Content
             $mail->isHTML(true);                                  // Set email format to HTML
+            $mail->SMTPDebug = SMTP::DEBUG_SERVER; // Hiển thị thông báo gỡ lỗi
             $mail->Subject = $subject;
             $mail->Body    = $content;
             $mail->send();

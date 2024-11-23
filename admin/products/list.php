@@ -207,5 +207,4 @@ if (isset($_SESSION['success'])) {
         </script>
     </div>
 </body>
-<?php include "../includes/footer.php" ?>
 </html>

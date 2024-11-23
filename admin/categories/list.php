@@ -99,5 +99,4 @@ if (isset($_SESSION['success'])) {
     </div>
 </body>
 
-<?php include "../includes/footer.php" ?>
 </html>

@@ -134,5 +134,4 @@ if (isset($_SESSION['success'])) {
         <!-- /#page-content-wrapper -->
     </div>
 </body>
-<?php include "../includes/footer.php" ?>
 </html>

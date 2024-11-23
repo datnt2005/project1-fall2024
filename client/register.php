@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($isCreate) {
             // Redirect to the same page to see the new record in the table
             $_SESSION['success'] = true;
-            header("Location: " . $_SERVER['PHP_SELF']);
+            header("Location: login.php " . $_SERVER['PHP_SELF']);
         } else {
             $errors['database'] = "Failed to create new user";
         }

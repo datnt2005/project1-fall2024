@@ -2,7 +2,7 @@
 session_start();
 include "./DBUntil.php";
 $dbHelper = new DBUntil();
-var_dump($_SESSION['idUser']) ?? null;
+
 $login_success = false;
 // echo ($_SESSION['id']);
 if (isset($_SESSION['success'])) {

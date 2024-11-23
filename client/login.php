@@ -1,8 +1,14 @@
 <?php
+
+use Google\Service\Adsense\Alert;
+
 include_once("./DBUntil.php");
 $dbHelper = new DBUntil();
 session_start();
+
+// Initialize the $errors array
 $errors = [];
+
 $email = "";
 $password = "";
 
@@ -32,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['idUser'] = $query[0]['idUser'];
             $_SESSION['success'] = true;
             $_SESSION['role'] = $query[0]['role'];
+            Alert("Đăng nhập thành công!");
             header('Location: index.php');
             exit();
         } else {
@@ -57,7 +64,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="card p-5" style="width: 30rem; background-color: var(--color-header); ">
             <img src="./images/logo_du_an_1 2.png" class="d-block mx-auto mb-4" alt="Logo" style="width: 130px; height: 100px;">
             <h3 class="text-center mb-4">Đăng nhập bằng</h3>
-            <div class="d-flex justify-content-between mt-3">
+            <div class="d-flex justify-content-between mt-2">
+                    <?php
+                    require_once 'facebook-login/login.php';
+                    ?>
+            </div>
+            <div class="d-flex justify-content-between mt-2">
                 <?php
                 require_once 'php-google-login/google-login.php';
                 ?>
@@ -89,8 +101,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <?php endif; ?>
 
                 <div class="d-flex justify-content-between mt-3">
-                    <a href="forgotpassword.html" class="text-decoration-none text-danger">Quên mật khẩu?</a>
-                    <a href="register.html" class="text-decoration-none text-primary">Đăng ký</a>
+                    <a href="forgotPassword/forgotPassword.php" class="text-decoration-none text-danger">Quên mật khẩu?</a>
+                    <a href="register.php" class="text-decoration-none text-primary">Đăng ký</a>
                 </div>
             </form>
         </div>
