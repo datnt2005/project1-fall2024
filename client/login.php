@@ -38,7 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['idUser'] = $query[0]['idUser'];
             $_SESSION['success'] = true;
             $_SESSION['role'] = $query[0]['role'];
-            Alert("Đăng nhập thành công!");
             header('Location: index.php');
             exit();
         } else {
