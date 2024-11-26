@@ -82,9 +82,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $isCreate = $dbHelper->insert('users', $data);
 
         if ($isCreate) {
-            // Redirect to the same page to see the new record in the table
             $_SESSION['success'] = true;
-            header("Location: login.php " );
+            header("Location: register.php"); // Chuyển hướng về cùng trang để thực hiện thông báo
+            exit(); // Dừng thực thi mã sau khi chuyển hướng
         } else {
             $errors['database'] = "Failed to create new user";
         }
@@ -96,6 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html lang="en">
 
 <?php include "./includes/head.php" ?>
+
 <style>
     body {
         background: linear-gradient(rgba(117, 245, 25, 0.6), rgba(105, 186, 49, 0.6)), url('./images/background.jpg') no-repeat center center fixed;
@@ -105,11 +106,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body id="login" style="background-color: var(--color); ">
 <?php if (isset($_SESSION['success']) && $_SESSION['success'] === true): ?>
-        <script>
-            alert('Đăng kí thành công!');
-        </script>
-        <?php unset($_SESSION['success']); ?>
-    <?php endif; ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: 'Đăng ký thành công!',
+                text: 'Tài khoản của bạn đã được tạo thành công.',
+                icon: 'success',
+                confirmButtonText: 'OK',
+                customClass: {
+                    confirmButton: 'custom-ok-button'
+                }
+            }).then(() => {
+                window.location.href = 'login.php'; // Chuyển hướng đến trang đăng nhập
+            });
+        });
+    </script>
+    <?php unset($_SESSION['success']); ?>
+<?php endif; ?>
+
 <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="card p-5" style="width: 30rem; background-color: var(--color-header); ">
             <img src="./images/logo_du_an_1 2.png" class="d-block mx-auto mb-4" alt="Logo" style="width: 130px; height: 100px;">
@@ -158,3 +172,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </body>
 
 </html>
+<style>
+    .custom-ok-button {
+        background-color: #69BA31 !important;
+        color: white !important;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .custom-ok-button:hover {
+        background-color: #57a228 !important;
+    }
+</style>
