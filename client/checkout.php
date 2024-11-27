@@ -89,41 +89,53 @@ if (isset($_SESSION['idUser'])) {
 }
 // coupon
 // coupon application
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['coupon'])) {
-    $couponCode = $_POST['coupon'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $action = $_POST['action'] ?? null;
 
-    // Check if the coupon exists in the database
-    $sql = "SELECT * FROM coupons WHERE codeCoupon = ? AND startDate <= NOW() AND endDate >= NOW() AND quantityCoupon > 0";
-    $coupon = $dbHelper->select($sql, [$couponCode]);
+    if ($action == 'coupon' && isset($_POST['coupon'])) {
+        // Handle coupon application logic here
+        $couponCode = $_POST['coupon'];
 
-    if ($coupon) {
-        // Coupon found and valid
-        $coupon = $coupon[0]; // Get the first (and only) coupon
+        // Check if the coupon exists in the database
+        $sql = "SELECT * FROM coupons WHERE codeCoupon = ? AND startDate <= NOW() AND endDate >= NOW() AND quantityCoupon > 0";
+        $coupon = $dbHelper->select($sql, [$couponCode]);
 
-        // Apply coupon to the cart total if there’s stock left
-        if ($coupon['quantityCoupon'] > 0) {
-            // Apply discount to the total
-            $discountAmount = $coupon['discount']; // Discount percentage
+        if ($coupon) {
+            // Coupon found and valid
+            $coupon = $coupon[0]; // Get the first (and only) coupon
 
-            // Update the coupon quantity in the database (decrease by 1)
-            $newQuantity = $coupon['quantityCoupon'] - 1;
-            $updateCouponSQL = "UPDATE coupons SET quantityCoupon = ? WHERE idCoupon = ?";
-            $dbHelper->select($updateCouponSQL, [$newQuantity, $coupon['idCoupon']]);
+            // Apply coupon to the cart total if there’s stock left
+            if ($coupon['quantityCoupon'] > 0) {
+                // Apply discount to the total
+                $discountAmount = $coupon['discount']; // Discount percentage
 
-            // Calculate new total price after discount
-            $discountedPrice = $totalPrice - ($totalPrice * $discountAmount / 100);
-            $_SESSION['discountedPrice'] = $discountedPrice; // Store discounted price in session
-            $_SESSION['couponId'] = $coupon['idCoupon']; // Store coupon ID to track usage
+                // Update the coupon quantity in the database (decrease by 1)
+                $newQuantity = $coupon['quantityCoupon'] - 1;
+                $updateCouponSQL = "UPDATE coupons SET quantityCoupon = ? WHERE idCoupon = ?";
+                $dbHelper->select($updateCouponSQL, [$newQuantity, $coupon['idCoupon']]);
 
-            // Optionally, show a message to the user
-            echo "<script>alert('Mã giảm giá đã được áp dụng! Giảm: $discountAmount%');</script>";
+                // Calculate new total price after discount
+                $discountedPrice = $totalPrice - ($totalPrice * $discountAmount / 100);
+                $_SESSION['discountedPrice'] = $discountedPrice; // Store discounted price in session
+                $_SESSION['couponId'] = $coupon['idCoupon']; // Store coupon ID to track usage
+
+                // Optionally, show a message to the user
+                echo "<script>alert('Mã giảm giá đã được áp dụng! Giảm: $discountAmount%');</script>";
+            } else {
+                echo "<script>alert('Mã giảm giá đã hết lượt sử dụng.');</script>";
+            }
         } else {
-            echo "<script>alert('Mã giảm giá đã hết lượt sử dụng.');</script>";
+            echo "<script>alert('Mã giảm giá không hợp lệ hoặc đã hết hạn.');</script>";
         }
-    } else {
-        echo "<script>alert('Mã giảm giá không hợp lệ hoặc đã hết hạn.');</script>";
+        // Existing coupon validation and discount logic
+    }
+
+    if ($action == 'order') {
+        // Handle order submission logic here
+        // Perform checkout operations like saving the order, finalizing payment, etc.
     }
 }
+
 
 // Cancel coupon
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cancel_coupon'])) {
@@ -152,6 +164,186 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cancel_coupon'])) {
     echo "<script>window.location.href = 'checkout.php';</script>";
     exit();
 }
+
+// Handle order submission
+
+// echo $address[0]['nameStreet'];
+// var_dump($address);
+
+// Assuming you have a function to calculate the total price
+function getTotal()
+{
+    global $carts;
+    $sum = 0;
+    foreach ($carts as $cart) {
+        $sum += $cart['price'] * $cart['quantityCart'];
+    }
+    return $sum;
+}
+
+$errors = [];
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (!isset($_POST['addressOrder']) || empty($_POST['addressOrder'])) {
+        $errors['addressOrder'] = "Vui lòng chọn địa chỉa nhận hàng.";
+    } else {
+        $addressOrder = $_POST['addressOrder'];
+    }
+
+    if (empty($_POST['payment'])) {
+        $errors['payment_method'] = 'Vui lòng chọn phương thức thanh toán';
+    }
+
+    if (empty($errors)) {
+        // Thực hiện logic thanh toán và lưu thông tin đơn hàng vào database
+        $paymentMethod = $_POST['payment'];
+        $noteOrder = $_POST['noteOrder'];
+
+        // Prepare the current date and time in MySQL datetime format
+        $currentDateTime = getdate();
+        $mysqlDateTime = date("Y-m-d H:i:s", mktime(
+            $currentDateTime['hours'] + 5,
+            $currentDateTime['minutes'],
+            $currentDateTime['seconds'],
+            $currentDateTime['mon'],
+            $currentDateTime['mday'],
+            $currentDateTime['year']
+        ));
+
+        // Get cart details
+        $isIdCart = $dbHelper->select("SELECT * FROM carts WHERE idUser = ?", [$_SESSION['id']]);
+        $checkCarts = $isIdCart[0]['idCart'];
+        $detailCart = $dbHelper->select("SELECT * FROM detailcart WHERE idCart = ?", [$checkCarts]);
+
+        // Prepare the formatted address
+        $formatted_address = $address[0]['nameStreet'] . ', ' . $address[0]['nameAddress'];
+
+        if ($paymentMethod == 1) { // Phương thức thanh toán khi nhận hàng
+            $dataInsertOrder = [
+                "dateOrder" => $mysqlDateTime,
+                "statusOrder" => 1, // Set to "pending"
+                "noteOrder" => $noteOrder,
+                "totalPrice" => getTotal() + 30000, // Adding fixed delivery cost
+                "payment" => $paymentMethod,
+                "idAddress" => $addressOrder, // Add selected address ID
+            ];
+
+            $insertOrder = $dbHelper->insert("orders", $dataInsertOrder);
+            $idOrder = $dbHelper->lastInsertId();
+
+            // Insert detail order
+            foreach ($detailCart as $row) {
+                $data = [
+                    "quantityOrder" => $row['quantityCart'],
+                    "sizeOrder" => $row['size'],
+                    "idProduct" => $row['idProduct'],
+                    "idOrder" => $idOrder,
+                ];
+                $insertDetailOrder = $dbHelper->insert("detailorder", $data);
+            }
+
+            // If everything is successful
+            if ($insertOrder && $insertDetailOrder) {
+                $removeCart = $dbHelper->delete("detailcart", "idCart = $checkCarts");
+                header("Location: thankyou.html");
+                exit;
+            }
+        }
+
+        if ($paymentMethod == 2) { // For online payment (VNPay)
+            error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
+
+            define("VNPAY_TMN_CODE", "RLH2F0WJ");
+            define("VNPAY_HASH_SECRET", "8B4FKPIX260QZ8XPSBEE0GSFTD5QK0FY");
+            define("VNPAY_URL", "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html");
+            define("VNPAY_RETURN_URL", "http://localhost/project-summer-2024/client/thankyou.html");
+
+            $vnp_Url = VNPAY_URL;
+            $vnp_Returnurl = VNPAY_RETURN_URL;
+            $vnp_TmnCode = VNPAY_TMN_CODE;
+            $vnp_HashSecret = VNPAY_HASH_SECRET;
+
+            $vnp_TxnRef = rand(00, 9999); // Random order ID
+            $vnp_OrderInfo = "Thanh toan hoa don";
+            $vnp_Amount = (getTotal() + 30000) * 100; // Amount in cents
+            $vnp_Locale = "vn";
+            $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+
+            $startTime = date("YmdHis");
+            $expire = date('YmdHis', strtotime('+15 minutes', strtotime($startTime)));
+            $inputData = [
+                "vnp_Version" => "2.1.0",
+                "vnp_TmnCode" => $vnp_TmnCode,
+                "vnp_Amount" => $vnp_Amount,
+                "vnp_Command" => "pay",
+                "vnp_CreateDate" => date('YmdHis'),
+                "vnp_CurrCode" => "VND",
+                "vnp_IpAddr" => $vnp_IpAddr,
+                "vnp_Locale" => $vnp_Locale,
+                "vnp_OrderInfo" => $vnp_OrderInfo,
+                "vnp_OrderType" => "billpayment",
+                "vnp_ReturnUrl" => $vnp_Returnurl,
+                "vnp_TxnRef" => $vnp_TxnRef,
+                "vnp_ExpireDate" => $expire
+            ];
+
+            ksort($inputData);
+            $query = "";
+            $i = 0;
+            $hashdata = "";
+            foreach ($inputData as $key => $value) {
+                if ($i == 1) {
+                    $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+                } else {
+                    $hashdata .= urlencode($key) . "=" . urlencode($value);
+                    $i = 1;
+                }
+                $query .= urlencode($key) . "=" . urlencode($value) . '&';
+            }
+
+            $vnp_Url = $vnp_Url . "?" . $query;
+            if (isset($vnp_HashSecret)) {
+                $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
+                $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+            }
+
+            // Insert order to database
+            $dataInsertOrder = [
+                "dateOrder" => $mysqlDateTime,
+                "statusOrder" => 2, // Order is paid
+                "noteOrder" => $noteOrder,
+                "totalPrice" => getTotal() + 30000,
+                "payment" => $paymentMethod,
+                "idAddress" => $addressOrder,
+            ];
+
+            $insertOrder = $dbHelper->insert("orders", $dataInsertOrder);
+            $idOrder = $dbHelper->lastInsertId();
+
+            // Insert detail order
+            foreach ($detailCart as $row) {
+                $data = [
+                    "quantityOrder" => $row['quantityCart'],
+                    "sizeOrder" => $row['size'],
+                    "idProduct" => $row['idProduct'],
+                    "idOrder" => $idOrder,
+                ];
+                $insertDetailOrder = $dbHelper->insert("detailorder", $data);
+            }
+
+            // Remove items from the cart
+            if ($insertOrder && $insertDetailOrder) {
+                $removeCart = $dbHelper->delete("detailcart", "idCart = $checkCarts");
+            }
+
+            header('Location: ' . $vnp_Url);
+            die();
+        }
+    }
+}
+
+
 
 ?>
 <!DOCTYPE html>
@@ -217,18 +409,20 @@ include "./includes/head.php" ?>
                             <div class="payment">
                                 <p class="fw-bold mb-2">3. Phương thức thanh toán</p>
                                 <div class="payment-method px-2">
+                                
                                     <div class="pay">
-                                        <input type="radio" name="payment" value="1" id="payment1"> <label class="fs-6 mx-2" for="payment1">Thanh toán khi nhận hàng</label>
+                                    <input type="radio" name="payment" value="1" id="payment1">
+                                    <label class="fs-6 mx-2" for="payment1">Thanh toán khi nhận hàng</label>
                                     </div>
                                     <div class="vnPay mt-1">
-                                        <input type="radio" name="payment" value="2" id="payment2">
-                                        <label class="fs-6 mx-2" for="payment2">Thanh toán VNPAY</label>
+                                    <input type="radio" name="payment" value="2" id="payment2">
+                                    <label class="fs-6 mx-2" for="payment2">Thanh toán VNPAY</label>
                                     </div>
-                                    <!-- <?php
-                                            if (isset($errors['payment'])) {
-                                                echo "<span class='text-danger'>$errors[payment] </span>";
-                                            }
-                                            ?> -->
+                                    <?php
+                                    if (isset($errors['payment_method'])) {
+                                        echo "<span class='errors text-danger'>{$errors['payment_method']}</span>";
+                                    }
+                                    ?>
                                 </div>
                             </div>
                             <hr>
@@ -254,33 +448,26 @@ include "./includes/head.php" ?>
                             <input type="hidden" name="action" id="action" value="order">
 
                             <input type="submit" class="btn btn-primary fw-bold w-100 mt-5" value="MUA HÀNG">
-                        </form>
-                        <script>
-                            document.getElementById('apply-coupon').addEventListener('click', function() {
-                                // Đặt giá trị action là 'coupon' để phân biệt với nút mua hàng
-                                document.getElementById('action').value = 'coupon';
-                                document.querySelector('form').submit(); // Submit form
-                            });
+                            <script>
+                                document.getElementById('apply-coupon').addEventListener('click', function() {
+                                    // Đặt giá trị action là 'coupon' để phân biệt với nút mua hàng
+                                    document.getElementById('action').value = 'coupon';
+                                    document.querySelector('form').submit(); // Submit form
+                                });
 
-                            document.querySelector('form').addEventListener('submit', function() {
-                                // Đặt giá trị action là 'order' trước khi form được gửi nếu nút mua hàng được click
-                                document.getElementById('action').value = 'order';
-                            });
-                        </script>
+                                document.querySelector('form').addEventListener('submit', function() {
+                                    // Đặt giá trị action là 'order' trước khi form được gửi nếu nút mua hàng được click
+                                    document.getElementById('action').value = 'order';
+                                });
+                            </script>
+                        </form>
+
                         <!-- <?php
                                 if (isset($errors['database'])) {
                                     echo "<div class='alert alert-danger mt-3'>$errors[database]</div>";
                                 }
                                 ?> -->
                     </div>
-                    <!-- Modal for Coupon Success -->
-<div id="couponSuccessModal" class="modal" style="display: none;">
-    <div class="modal-content">
-        <p id="couponMessage" class="fw-bold">Mã giảm giá đã được áp dụng!</p>
-        <button id="closeCouponMessage" class="btn btn-primary">Đóng</button>
-    </div>
-</div>
-
                     <div class="col-md-6">
                         <h3 class="fs-4 fw-bold">THÔNG TIN SẢN PHẨM</h3>
                         <table class="table table-cart">
