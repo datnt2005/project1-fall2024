@@ -171,15 +171,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cancel_coupon'])) {
 // var_dump($address);
 
 // Assuming you have a function to calculate the total price
-function getTotal()
-{
-    global $carts;
-    $sum = 0;
-    foreach ($carts as $cart) {
-        $sum += $cart['price'] * $cart['quantityCart'];
-    }
-    return $sum;
-}
 
 $errors = [];
 
@@ -223,7 +214,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 "dateOrder" => $mysqlDateTime,
                 "statusOrder" => 1, // Set to "pending"
                 "noteOrder" => $noteOrder,
-                "totalPrice" => getTotal() + 30000, // Adding fixed delivery cost
+                "totalPrice" => $totalPrice() + 30000, // Adding fixed delivery cost
                 "payment" => $paymentMethod,
                 "idAddress" => $addressOrder, // Add selected address ID
             ];
@@ -266,7 +257,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $vnp_TxnRef = rand(00, 9999); // Random order ID
             $vnp_OrderInfo = "Thanh toan hoa don";
-            $vnp_Amount = (getTotal() + 30000) * 100; // Amount in cents
+            $vnp_Amount = ($totalPrice() + 30000) * 100; // Amount in cents
             $vnp_Locale = "vn";
             $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
 
@@ -313,7 +304,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 "dateOrder" => $mysqlDateTime,
                 "statusOrder" => 2, // Order is paid
                 "noteOrder" => $noteOrder,
-                "totalPrice" => getTotal() + 30000,
+                "totalPrice" => $totalPrice() + 30000,
                 "payment" => $paymentMethod,
                 "idAddress" => $addressOrder,
             ];
@@ -342,10 +333,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 }
-
-
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <?php
