@@ -10,6 +10,12 @@ if (isset($_SESSION['success'])) {
     $login_success = true;
 }
 
+$user_id = $_SESSION['idUser'] ?? null;
+if (!$user_id) {
+    echo "<script>alert('User not logged in or invalid session!')</script>";
+    exit();
+}
+
 // // Xử lý form khi người dùng nhấn "Thêm địa chỉ"
 // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 //     $phone = $_POST['phone'];

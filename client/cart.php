@@ -4,9 +4,12 @@ $idUser = $_SESSION['idUser'] ?? null;
 include_once("./DBUntil.php");
 $dbHelper = new DBUntil();
 
-function formatCurrencyVND($number) {
+function formatCurrencyVND($number)
+{
     return number_format($number, 0, ',', '.') . 'đ';
 }
+
+
 
 // Xóa sản phẩm khỏi giỏ hàng
 if (isset($_GET['remove'])) {
@@ -23,9 +26,11 @@ if (isset($_GET['remove'])) {
     } else {
         // Nếu chưa đăng nhập, xóa sản phẩm khỏi session
         foreach ($_SESSION['cart'] as $key => $cartSessionItem) {
-            if ($cartSessionItem['idProduct'] == $idProductToRemove && 
-                $cartSessionItem['size'] == $sizeToRemove && 
-                $cartSessionItem['color'] == $colorToRemove) {
+            if (
+                $cartSessionItem['idProduct'] == $idProductToRemove &&
+                $cartSessionItem['size'] == $sizeToRemove &&
+                $cartSessionItem['color'] == $colorToRemove
+            ) {
                 unset($_SESSION['cart'][$key]);
                 $_SESSION['message'] = "Sản phẩm được xóa khỏi giỏ hàng!";
                 break;
@@ -60,9 +65,23 @@ if (isset($_POST['update_cart'])) {
         }
     }
     if ($isUpdated) {
-        $_SESSION['message'] = "Giỏ hàng đã được cập nhật!";
-        header("Location: cart.php");
-        exit;
+        echo "
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Cập nhật giỏ hàng thành công!',
+                    text: 'Giỏ hàng đã được cập nhật.',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#69BA31'
+                }).then(() => {
+                    window.location.href = 'cart.php';
+                });
+            });
+        </script>
+    ";
+    exit;
     } else {
         $_SESSION['error'] = "Không thể cập nhật giỏ hàng. Vui lòng thử lại!";
     }
@@ -108,7 +127,6 @@ if (isset($_SESSION['idUser'])) {
     } else {
         $_SESSION['error'] = "Không tìm thấy giỏ hàng.";
     }
-
 } else {
     // Nếu chưa đăng nhập, lấy sản phẩm từ session
     $productCart = [];
@@ -132,8 +150,8 @@ if (isset($_SESSION['idUser'])) {
                 $productCart[] = $product[0];
 
                 // Tính tổng giá cho giỏ hàng
-                $totalPrice += $product[0]['price'] * $quantity;
                 $totalQuantity += $quantity;
+                $totalPrice += $product[0]['price'] * $quantity;
             }
         }
     } else {
@@ -189,76 +207,76 @@ foreach ($productCart as $cartItem) {
                                 </thead>
                                 <tbody>
                                     <?php if (!empty($productCart)): ?>
-                                    <?php foreach ($productCart as $cartItem): ?>
-                                    <tr>
-                                        <td>
-                                            <div class="remove-cart d-flex align-items-center justify-content-center">
-                                                <a href="?remove=<?php echo $cartItem['idDetailCart']; ?>"
-                                                    class="fw-bold text-decoration-none text-warning">Xóa</a>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <a href="detailProduct.php?id=<?php echo $cartItem['idProduct']; ?>"
-                                                class="name-products text-decoration-none">
-                                                <div class="cart-products d-flex align-items-center">
-                                                    <div class="image-products">
-
-                                                        <img src="../admin/products/image/<?php echo htmlspecialchars($cartItem['namePic']); ?>"
-                                                            alt="Items" class="w-100">
+                                        <?php foreach ($productCart as $cartItem): ?>
+                                            <tr>
+                                                <td>
+                                                    <div class="remove-cart d-flex align-items-center justify-content-center">
+                                                        <a href="?remove=<?php echo $cartItem['idDetailCart']; ?>"
+                                                            class="fw-bold text-decoration-none text-warning">Xóa</a>
                                                     </div>
-                                                    <div class="product-content mx-2">
+                                                </td>
+                                                <td>
+                                                    <a href="detailProduct.php?id=<?php echo $cartItem['idProduct']; ?>"
+                                                        class="name-products text-decoration-none">
+                                                        <div class="cart-products d-flex align-items-center">
+                                                            <div class="image-products">
 
-                                                        <p class="product-name line-clamp-1 fw-bold"
-                                                            style="font-size: 16px; color: #353535; hover {color: 69BA31}">
-                                                            <?php echo htmlspecialchars($cartItem['nameProduct']); ?> -
-                                                            <?php echo htmlspecialchars($cartItem['size']); ?></p>
+                                                                <img src="../admin/products/image/<?php echo htmlspecialchars($cartItem['namePic']); ?>"
+                                                                    alt="Items" class="w-100">
+                                                            </div>
+                                                            <div class="product-content mx-2">
+
+                                                                <p class="product-name line-clamp-1 fw-bold"
+                                                                    style="font-size: 16px; color: #353535; hover {color: 69BA31}">
+                                                                    <?php echo htmlspecialchars($cartItem['nameProduct']); ?> -
+                                                                    <?php echo htmlspecialchars($cartItem['size']); ?></p>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <span class="price">
+                                                        <?php
+                                                        // Kiểm tra và hiển thị giá theo size
+                                                        if (isset($productPrices[$cartItem['idProduct']][$cartItem['size']])) {
+                                                            echo formatCurrencyVND($productPrices[$cartItem['idProduct']][$cartItem['size']]);
+                                                        } else {
+                                                            echo "Giá chưa có";
+                                                        }
+                                                        ?>
+                                                    </span>
+
+                                                </td>
+                                                <td>
+                                                    <div class="quantity">
+                                                        <input type="number"
+                                                            id="quantity-products-<?php echo $cartItem['idDetailCart']; ?>"
+                                                            name="quantity[<?php echo $cartItem['idDetailCart']; ?>]"
+                                                            class="input-text w-25 text-center btn btn-outline-success qty text bk-product-qty"
+                                                            step="1" min="1"
+                                                            value="<?php echo htmlspecialchars($cartItem['quantityCart']); ?>"
+                                                            title="SL" size="4" autocomplete="off">
                                                     </div>
-                                                </div>
-                                            </a>
-                                        </td>
-                                        <td>
-                                        <span class="price">
-                                            <?php 
-                                            // Kiểm tra và hiển thị giá theo size
-                                            if (isset($productPrices[$cartItem['idProduct']][$cartItem['size']])) {
-                                                echo formatCurrencyVND($productPrices[$cartItem['idProduct']][$cartItem['size']]);
-                                            } else {
-                                                echo "Giá chưa có";
-                                            }
-                                            ?>
-                                        </span>
 
-                                        </td>
-                                        <td>
-                                            <div class="quantity">
-                                                <input type="number"
-                                                    id="quantity-products-<?php echo $cartItem['idDetailCart']; ?>"
-                                                    name="quantity[<?php echo $cartItem['idDetailCart']; ?>]"
-                                                    class="input-text w-25 text-center btn btn-outline-success qty text bk-product-qty"
-                                                    step="1" min="1"
-                                                    value="<?php echo htmlspecialchars($cartItem['quantityCart']); ?>"
-                                                    title="SL" size="4" autocomplete="off">
-                                            </div>
-
-                                        </td>
-                                        <td>
-                                            <span class="total-price">
-                                            <?php 
-                                            // Kiểm tra và hiển thị giá theo size
-                                            if (isset($productPrices[$cartItem['idProduct']][$cartItem['size']])) {
-                                                echo formatCurrencyVND($productPrices[$cartItem['idProduct']][$cartItem['size']] * $cartItem['quantityCart']);
-                                            } else {
-                                                echo "Giá chưa có";
-                                            }
-                                            ?>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <?php endforeach; ?>
+                                                </td>
+                                                <td>
+                                                    <span class="total-price">
+                                                        <?php
+                                                        // Kiểm tra và hiển thị giá theo size
+                                                        if (isset($productPrices[$cartItem['idProduct']][$cartItem['size']])) {
+                                                            echo formatCurrencyVND($productPrices[$cartItem['idProduct']][$cartItem['size']] * $cartItem['quantityCart']);
+                                                        } else {
+                                                            echo "Giá chưa có";
+                                                        }
+                                                        ?>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
                                     <?php else: ?>
-                                    <tr>
-                                        <td colspan="5" class="text-center">Giỏ hàng của bạn đang trống</td>
-                                    </tr>
+                                        <tr>
+                                            <td colspan="5" class="text-center">Giỏ hàng của bạn đang trống</td>
+                                        </tr>
                                     <?php endif; ?>
                                 </tbody>
                             </table>
@@ -295,9 +313,11 @@ foreach ($productCart as $cartItem) {
                             </div>
                         </div>
                         <div class="to-checkout mt-3 d-flex">
-                            <a href="checkout.php"
-                                class="toCheck text-decoration-none w-100 text-center py-2 m-auto px-2 bg-primary text-white fw-bold rounded">THANH
-                                TOÁN</a>
+                            <form method="post" action="checkout.php" class="w-100">
+                                <button type="submit" name="checkout" class="btn btn-primary w-100 fw-bold rounded">
+                                    THANH TOÁN
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -310,3 +330,4 @@ foreach ($productCart as $cartItem) {
 </body>
 
 </html>
+

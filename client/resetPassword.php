@@ -30,11 +30,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (empty($errors)) {
         $newPassword = $_POST['newPassword'];
-        $updatePassword = $dbHelper->update('users', array('password'=>$newPassword), "idUser = '$user_id'");
-            if ($updatePassword) {
-                $_SESSION['success'] = true;
-                header('Location: ./detail_user.php?id=' . $user_id);
-            }
+        $updatePassword = $dbHelper->update('users', array('password' => $newPassword), "idUser = '$user_id'");
+        if ($updatePassword) {
+            echo "
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        Swal.fire({
+                            title: 'Đổi mật khẩu thành công!',
+                            text: 'Bạn có thể tiếp tục sử dụng tài khoản của mình.',
+                            icon: 'success',
+                            confirmButtonText: 'OK',
+                            confirmButtonColor: '#69BA31' // Màu sắc nút OK
+                        }).then(() => {
+                            window.location.href = './detail_user.php?id=$user_id';
+                        });
+                    });
+                </script>
+            ";
+        }
     }
 }
 

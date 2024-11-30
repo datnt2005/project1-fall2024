@@ -61,6 +61,7 @@ if ($images) {
     }
 }
 
+
 // Xử lý thêm sản phẩm vào giỏ hàng
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Lấy dữ liệu từ form
@@ -130,8 +131,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $dbHelper->insert("detailcart", $data);
         }
 
-        // Redirect để tránh gửi lại form
-        header("Location: detailProduct.php?id=$productId");
+        // Hiển thị thông báo thành công và chuyển hướng về trang sản phẩm
+        echo "
+            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        title: 'Thêm sản phẩm thành công!',
+                        text: 'Sản phẩm đã được thêm vào giỏ hàng.',
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#69BA31'
+                    }).then(() => {
+                        window.location.href = 'detailProduct.php?id=$productId';
+                    });
+                });
+            </script>
+        ";
         exit;
     } else {
         // Người dùng chưa đăng nhập
@@ -175,6 +191,7 @@ input[type="number"] {
     width: 70px;
     text-align: center;
 }
+
 </style>
 
 <body>
