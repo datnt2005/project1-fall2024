@@ -9,19 +9,20 @@ $role = $_SESSION['role'] ?? null;
     // }
 $dbHelper = new DBUntil();
 $idOrder = $_GET['id'];
-$listOder = $dbHelper-> select("SELECT ord.*, adr.*, dor.*,
+$listOder = $dbHelper-> select("SELECT ord.*, dadr.*, dor.*,
                                         GROUP_CONCAT(DISTINCT CONCAT(prd.nameProduct, ' (', dor.sizeOrder, ')') SEPARATOR ', ') AS products
                                         FROM orders ord
                                         INNER JOIN detailorder dor ON ord.idOrder = dor.idOrder
                                         INNER JOIN products prd ON dor.idProduct = prd.idProduct
-                                        INNER JOIN detailaddress adr ON ord.idAddress = adr.idAddress WHERE ord.idOrder = $idOrder GROUP BY ord.idOrder");
+                                        INNER JOIN detail_address dadr ON ord.idAddress = dadr.detail_id 
+                                        WHERE ord.idOrder = $idOrder GROUP BY ord.idOrder");
 $idProduct = $listOder[0]['idProduct'];
 $size = $listOder[0]['sizeOrder'];
 $price = $listOder[0]['price'];
-$product = $dbHelper->select("SELECT prd.*, ps.*, s.*, c.* FROM products prd
+$product = $dbHelper->select("SELECT prd.*, ps.*, s.* FROM products prd
                                 INNER JOIN product_size ps ON prd.idProduct = ps.idProduct
-                                INNER JOIN sizes s ON psc.idSize = s.idSize
-                                WHERE prd.idProduct = ? AND s.nameSize = ? AND c.nameColor = ?", [$idProduct, $size]);
+                                INNER JOIN sizes s ON ps.idSize = s.idSize
+                                WHERE prd.idProduct = ? AND s.nameSize = ?", [$idProduct, $size]);
 var_dump($product);
 $idPS = $product[0]['idProductSize'];
 $quantity = $product[0]['quantityProduct'] - $listOder[0]['quantityOrder'];

@@ -1,8 +1,11 @@
 <?php
 session_start();
 include "./DBUntil.php";
+include "./statusOrder.php";
 $dbHelper = new DBUntil();
 require './connnect.php';
+
+$status = new Status();
 
 $user_id = $_SESSION['idUser'] ?? null;  // Kiểm tra người dùng đã đăng nhập chưa
 
@@ -45,7 +48,7 @@ function formatCurrencyVND($number)
     <?php include "./includes/header.php" ?>
 
     <main>
-    <div class="d-flex justify-content-center align-items-center header-outstanding">
+        <div class="d-flex justify-content-center align-items-center header-outstanding">
             <p class="link-cate m-1 fs-5 text-white">Chào mừng bạn đến
                 với thế giới các loại hạt của chúng tôi!</p>
         </div>
@@ -58,7 +61,7 @@ function formatCurrencyVND($number)
         </div>
 
         <div class="container my-5">
-            
+
 
             <!-- Danh sách đơn hàng -->
             <div class="row row-cols-1 row-cols-md-2 g-4">
@@ -86,13 +89,14 @@ function formatCurrencyVND($number)
                                                 <td><?php echo $order['address_name'] . ", " . $order['village'] . ", " . $order['phone']; ?></td>
                                                 <td><?php echo formatCurrencyVND($order['totalPrice']); ?></td>
                                                 <td>
-                                                    <span class="badge <?php echo ($order['statusOrder'] == 5) ? 'bg-success' : 'bg-warning'; ?>">
-                                                        <?php echo ($order['statusOrder'] == 5) ? 'Đã Giao' : 'Đang Xử Lý'; ?>
-                                                    </span>
+                                                    <?php $status->status($order['statusOrder']); ?>
                                                 </td>
-                                                <td><button class="btn btn-primary">Mua lại</button></td>
-                                                <?php if ($order['statusOrder'] == 1) :?>
-                                                <td><button class="btn btn-warning" onclick="cancelOrder('<?php echo $order['idOrder']; ?>')">Hủy đơn</button></td>
+                                                <td>
+                                                    <a href="shop.php" class="btn btn-primary">Mua lại</a>
+                                                </td>
+                                                <?php if ($order['statusOrder'] == 1) : ?>
+                                                    <td><a href="javascript:void(0);" onclick="cancelOrder('<?php echo $order['idOrder']; ?>')" class="btn btn-warning">Hủy đơn hàng</a>
+                                                    </td>
                                                 <?php endif; ?>
                                             </tr>
                                         </tbody>
@@ -110,16 +114,26 @@ function formatCurrencyVND($number)
     <script src="./js/script.js"></script>
 </body>
 <script>
-    function cancelOrder(orderId) {
-        if (confirm("Bạn có muốn hủy đơn hàng này không?")) {
-            // Gửi yêu cầu hủy đơn hàng thông qua AJAX hoặc redirect tới trang xử lý
+   function cancelOrder(orderId) {
+    // Sử dụng SweetAlert2 để xác nhận
+    Swal.fire({
+        title: 'Bạn có chắc chắn muốn hủy đơn hàng này?',
+        text: "Hành động này không thể hoàn tác!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#69BA31',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Có, hủy đơn!',
+        cancelButtonText: 'Không, giữ lại đơn!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Nếu người dùng xác nhận, chuyển hướng đến trang hủy đơn hàng
             window.location.href = 'cancel_order.php?id=' + orderId;
         }
-    }
+    });
+}
+
 </script>
 
+
 </html>
-
-
-
-

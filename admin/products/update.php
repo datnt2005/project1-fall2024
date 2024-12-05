@@ -7,7 +7,7 @@ $idProduct = $_GET['id'];
 $listProduct = $dbHelper->select("SELECT PR.*,
         SUM(SC.quantityProduct) AS total_quantity
         FROM products PR
-        INNER JOIN product_size_color SC ON PR.idProduct = SC.idProduct
+        INNER JOIN product_size SC ON PR.idProduct = SC.idProduct
         WHERE PR.idProduct = ?", [$idProduct])[0];
 $nameProduct = "";
 $price = "";
@@ -21,18 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $nameProduct = $_POST['nameProduct'];
     }
 
-    if (!isset($_POST['price']) || empty($_POST['price'])) {
-        $errors['price'] = "Giá sản phẩm là bắt buộc";
-    } else {
-        $price = $_POST['price'];
-    }
-
-    if (!isset($_POST['total_quantity']) || empty($_POST['total_quantity'])) {
-        $errors['total_quantity'] = "Số lượng sản phẩm là bắt buộc";
-    } else {
-        $total_quantity = $_POST['total_quantity'];
-    }
-
     if (!isset($_POST['description']) || empty($_POST['description'])) {
         $errors['description'] = "Mô tả sản phẩm là bắt buộc";
     } else {
@@ -42,16 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (count($errors) == 0) {
         $data = [
             'nameProduct' => $nameProduct,
-            'price' => $price,
-
             'description' => $description,
         ];
-        $quantity = [
-            'quantityProduct' => $total_quantity,
-        ];
+
 
         $product = $dbHelper->update("products", $data, "idProduct = $idProduct");
-        $quantityProduct = $dbHelper->update("product_size_color", $quantity, "idProduct = $idProduct");
         $_SESSION['success'] = "Bạn đã cập nhật thành công";
         header("Location: list.php");
     }
@@ -75,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Products</h3>
+                                <h3 class="card-title">Sản phẩm</h3>
                             </div>
                             <div class="card-body">
                                 <div class="row mt-4 bg-light">
@@ -103,27 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             }
                                         ?>
                                             </div>
-                                            <div class="mb-3">
-                                                <label for="price" class="form-label">Giá</label>
-                                                <input type="number" min="0" name="price" class="form-control" placeholder="Giá"
-                                                    value="<?php echo htmlspecialchars($listProduct['price']); ?>">
-                                                <?php
-                                            if(isset($errors['price'])) {
-                                                echo "<span class='text-danger'>$errors[price] </span>";
-                                            }
-                                        ?>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="total_quantity" class="form-label">Số lượng</label>
-                                                <input type="number" min="0" name="total_quantity" class="form-control"
-                                                    placeholder="Số lượng"
-                                                    value="<?php echo htmlspecialchars($listProduct['total_quantity']); ?>">
-                                                <?php
-                                            if(isset($errors['total_quantity'])) {
-                                                echo "<span class='text-danger'>$errors[total_quantity] </span>";
-                                            }
-                                        ?>
-                                            </div>
+                                        
                                             <div class="mb-3">
                                                 <label for="description" class="form-label">Mô tả</label>
                                                 <input type="text" name="description" class="form-control"

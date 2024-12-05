@@ -1,7 +1,7 @@
 <?php
 session_start();
 include_once('./DBUntil.php');
-$idUser = 10;  // Bạn có thể thay đổi để lấy từ session khi người dùng đã đăng nhập
+$idUser = $_SESSION['idUser'];  // Bạn có thể thay đổi để lấy từ session khi người dùng đã đăng nhập
 $dbHelper = new DBUntil();
 
 // Hàm format tiền tệ
@@ -299,156 +299,9 @@ input[type="number"] {
 
         </div>
         <hr>
-        <div class="my-4" style="width: 50%;">
-            <h3>Thống Kê Đánh Giá</h3>
-            <div class="rating-statistics">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2">5 sao</span>
-                    <div class="progress w-100">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 70%;" aria-valuenow="70"
-                            aria-valuemin="0" aria-valuemax="100">70%</div>
-                    </div>
-                    <span class="ms-2">70%</span>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2">4 sao</span>
-                    <div class="progress w-100">
-                        <div class="progress-bar bg-info" role="progressbar" style="width: 20%;" aria-valuenow="20"
-                            aria-valuemin="0" aria-valuemax="100">20%</div>
-                    </div>
-                    <span class="ms-2">20%</span>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2">3 sao</span>
-                    <div class="progress w-100">
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: 5%;" aria-valuenow="5"
-                            aria-valuemin="0" aria-valuemax="100">5%</div>
-                    </div>
-                    <span class="ms-2">5%</span>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2">2 sao</span>
-                    <div class="progress w-100">
-                        <div class="progress-bar bg-danger" role="progressbar" style="width: 3%;" aria-valuenow="3"
-                            aria-valuemin="0" aria-valuemax="100">3%</div>
-                    </div>
-                    <span class="ms-2">3%</span>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2">1 sao</span>
-                    <div class="progress w-100">
-                        <div class="progress-bar bg-dark" role="progressbar" style="width: 2%;" aria-valuenow="2"
-                            aria-valuemin="0" aria-valuemax="100">2%</div>
-                    </div>
-                    <span class="ms-2">2%</span>
-                </div>
-            </div>
-        </div>
-        <div class="my-4">
-            <h3>Đánh Giá Sản Phẩm</h3>
 
-            <!-- Phần đánh giá sao -->
-            <div class="rating mb-3">
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star"></span>
-                <span>(4/5)</span>
-            </div>
-
-            <!-- Khu vực nhập đánh giá -->
-            <textarea class="form-control" rows="3" placeholder="Viết đánh giá của bạn..."></textarea>
-            <button class="btn btn-success my-2" onclick="addReview()">Gửi Đánh Giá</button>
-
-            <!-- Hiển thị các đánh giá đã gửi -->
-            <div id="review-list" class="my-4">
-                <h4>Nhận Xét Từ Khách Hàng</h4>
-
-                <!-- Nhận xét mẫu -->
-                <div class="card mb-3 border">
-                    <div class="card-body">
-                        <div class="rating mb-1">
-                            <span class="fa fa-star checked text-warning"></span>
-                            <span class="fa fa-star checked text-warning"></span>
-                            <span class="fa fa-star checked text-warning"></span>
-                            <span class="fa fa-star checked text-warning"></span>
-                            <span class="fa fa-star text-warning"></span>
-                        </div>
-                        <p class="card-text">“Sản phẩm rất tốt, chất lượng tuyệt vời. Rất hài lòng với lần mua này!”</p>
-                    </div>
-                </div>
-
-                <div class="card mb-3 border">
-                    <div class="card-body">
-                        <div class="rating mb-1">
-                            <span class="fa fa-star checked text-warning"></span>
-                            <span class="fa fa-star checked text-warning"></span>
-                            <span class="fa fa-star checked text-warning"></span>
-                            <span class="fa fa-star checked text-warning"></span>
-                            <span class="fa fa-star checked text-warning"></span>
-                        </div>
-                        <p class="card-text">“Dịch vụ tốt, giao hàng nhanh, sản phẩm đúng mô tả. Rất đáng tiền!”</p>
-                    </div>
-                </div>
-
-                <div class="card mb-3 border">
-                    <div class="card-body">
-                        <div class="rating mb-1">
-                            <span class="fa fa-star checked text-warning"></span>
-                            <span class="fa fa-star checked text-warning"></span>
-                            <span class="fa fa-star checked text-warning"></span>
-                            <span class="fa fa-star text-warning"></span>
-                            <span class="fa fa-star text-warning"></span>
-                        </div>
-                        <p class="card-text">“Sản phẩm khá ổn, nhưng giao hàng hơi chậm. Hy vọng lần tới sẽ nhanh hơn.”
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <hr>
-
-        <div class="my-4">
-            <h3>Sản Phẩm Liên Quan</h3>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card">
-                        <img src="./images/assorted-nuts-bazzini-500x900-min.png" class="card-img-top"
-                            alt="Sản phẩm liên quan">
-                        <div class="card-body">
-                            <h5 class="card-title">Sản Phẩm 1</h5>
-                            <p class="card-text">Giá: 80,000 VNĐ</p>
-                            <a href="#" class="btn btn-primary">Xem Chi Tiết</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <img src="./images/assorted-nuts-bazzini-500x900-min.png" class="card-img-top"
-                            alt="Sản phẩm liên quan">
-                        <div class="card-body">
-                            <h5 class="card-title">Sản Phẩm 2</h5>
-                            <p class="card-text">Giá: 90,000 VNĐ</p>
-                            <a href="#" class="btn btn-primary">Xem Chi Tiết</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <img src="./images/assorted-nuts-bazzini-500x900-min.png" class="card-img-top"
-                            alt="Sản phẩm liên quan">
-                        <div class="card-body">
-                            <h5 class="card-title">Sản Phẩm 3</h5>
-                            <p class="card-text">Giá: 120,000 VNĐ</p>
-                            <a href="#" class="btn btn-primary">Xem Chi Tiết</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr>
+        
+        <?php include "./comments/comment.php" ?>
     </main>
 
     <?php include "./includes/footer.php" ?>

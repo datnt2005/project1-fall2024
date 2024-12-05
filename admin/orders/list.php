@@ -13,22 +13,28 @@
 
     // Thực hiện tìm kiếm nếu có từ khóa, nếu không thì lấy tất cả danh mục
     if (!empty($searchTerm)) {
-        $listOrder = $dbHelper->select("SELECT ord.*, adr.*, dor.*,
+        $listOrder = $dbHelper->select("SELECT ord.*, dadr.*, dor.*, w.name AS nameWard, d.name AS nameDistrict, p.name AS nameProvince,
                                         GROUP_CONCAT(DISTINCT CONCAT(prd.nameProduct, ' (', dor.sizeOrder, ')') SEPARATOR ', ') AS products
                                         FROM orders ord
                                         INNER JOIN detailorder dor ON ord.idOrder = dor.idOrder
                                         INNER JOIN products prd ON dor.idProduct = prd.idProduct
-                                        INNER JOIN detailaddress adr ON ord.idAddress = adr.idAddress
+                                        INNER JOIN detail_address dadr ON ord.idAddress = dadr.detail_id
+                                        INNER JOIN province p ON dadr.province_id = p.province_id 
+                                        INNER JOIN district d ON dadr.district_id = d.district_id 
+                                        INNER JOIN wards w ON dadr.ward_id = w.wards_id
                                         WHERE prd.nameProduct LIKE ? OR ? = ''
                                         GROUP BY ord.idOrder", array('%' . $searchTerm . '%', $searchTerm));
     
     } else {
-        $listOrder = $dbHelper->select("SELECT ord.*, adr.*, dor.*,
+        $listOrder = $dbHelper->select("SELECT ord.*, dadr.*, dor.*, w.name AS nameWard, d.name AS nameDistrict, p.name AS nameProvince,
                                         GROUP_CONCAT(DISTINCT CONCAT(prd.nameProduct, ' (', dor.sizeOrder, ')') SEPARATOR ', ') AS products
                                         FROM orders ord
                                         INNER JOIN detailorder dor ON ord.idOrder = dor.idOrder
                                         INNER JOIN products prd ON dor.idProduct = prd.idProduct
-                                        INNER JOIN detailaddress adr ON ord.idAddress = adr.idAddress
+                                        INNER JOIN detail_address dadr ON ord.idAddress = dadr.detail_id
+                                        INNER JOIN province p ON dadr.province_id = p.province_id 
+                                        INNER JOIN district d ON dadr.district_id = d.district_id 
+                                        INNER JOIN wards w ON dadr.ward_id = w.wards_id
                                         GROUP BY ord.idOrder");
     }
        
@@ -68,7 +74,7 @@ if (isset($_SESSION['success'])) {
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Orders</h3>
+                                <h3 class="card-title">Đơn hàng</h3>
                             </div>
                             <div class="card-body">
                                 <div class="d-flex justify-content-between mt-4">
@@ -91,7 +97,7 @@ if (isset($_SESSION['success'])) {
                                             <th>Thời gian</th>
                                             <th>Ghi chú</th>
                                             <th>Trạng thái</th>
-                                            <th>Action</th>
+                                            <th>Hành động</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -99,7 +105,7 @@ if (isset($_SESSION['success'])) {
                                         <tr class="align-middle">
                                             <td><b><?php echo $orders['products'] ?></b></td>
                                             <td><?php
-                                                    echo $orders['name'] . " <br> " . $orders['phone'] ." - ".$orders['email']. "<br>" . $orders['street'] . ", " . $orders['nameAddress'];
+                                                    echo $orders['name'] . " <br> " . $orders['phone'] ." - ".$orders['email']. "<br>" . $orders['village'] . ", " . $orders['nameWard'] . ", " . $orders['nameDistrict'] . ", " . $orders['nameProvince'];
                                                 ?></td>
                                             <td><?php echo $orders['quantityOrder']?></td>
                                             <td><?php echo formatCurrencyVND($orders['totalPrice'])?></td>
@@ -173,5 +179,5 @@ if (isset($_SESSION['success'])) {
     });
 }
 </script>
-<?php include "../includes/footer.php" ?>
+<script src="../js/script.js"></script>
 </html>

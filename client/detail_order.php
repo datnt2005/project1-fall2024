@@ -155,7 +155,7 @@ $shipping_fee = 30000;
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                <!-- Tiền ship -->
+
                 <div class="d-flex justify-content-end">
                     <p class="fw-bold">Phí vận chuyển: <?php echo formatCurrencyVND($shipping_fee); ?></p>
                 </div>
@@ -165,7 +165,7 @@ $shipping_fee = 30000;
             </div>
 
 
-            <!-- Phương thức thanh toán -->
+
             <div class="card shadow-sm border-0 rounded-4 p-4 mt-4">
                 <h5 class="mb-3">Phương Thức Thanh Toán</h5>
                 <p><?php echo getPaymentMethod($order_info['payment']); ?></p>

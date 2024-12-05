@@ -50,7 +50,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                        WHERE detail_id = '$detail_id' AND user_id = '$user_id'";
 
         if (mysqli_query($conn, $update_sql)) {
-            echo "<script>alert('Cập nhật địa chỉ thành công!'); window.location.href = 'listAddress.php';</script>";
+            echo "
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Cập nhật địa chỉ thành công!',
+                    text: 'Địa chỉ đã được cập nhật.',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#69BA31'
+                }).then(() => {
+                    window.location.href = 'listAddress.php';
+                });
+            });
+        </script>
+        ";
+        exit;
         } else {
             $error = "Đã xảy ra lỗi khi cập nhật địa chỉ!";
         }

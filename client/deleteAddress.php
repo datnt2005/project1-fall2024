@@ -32,7 +32,23 @@ if (mysqli_num_rows($result) == 0) {
 $delete_sql = "DELETE FROM detail_address WHERE detail_id = '$detail_id' AND user_id = '$user_id'";
 
 if (mysqli_query($conn, $delete_sql)) {
-    echo "<script>alert('Xóa địa chỉ thành công!'); window.location.href = 'listAddress.php';</script>";
+    echo "
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Xóa địa chỉ thành công!',
+                    text: 'Địa chỉ đã được xóa.',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#69BA31'
+                }).then(() => {
+                    window.location.href = 'listAddress.php';
+                });
+            });
+        </script>
+        ";
+        exit;
 } else {
     echo "<script>alert('Xóa địa chỉ không thành công!'); window.location.href = 'listAddress.php';</script>";
 }

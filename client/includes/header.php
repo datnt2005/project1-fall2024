@@ -19,10 +19,10 @@ $dbHelper = new DBUntil();
                         <a class="nav-link" aria-current="page" href="shop.php">Sản Phẩm</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " aria-current="page" href="contact.php">Chúng tôi là ai?</a>
+                        <a class="nav-link " aria-current="page" href="introduce.php">Chúng tôi là ai?</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " aria-current="page" href="">Liên Hệ</a>
+                        <a class="nav-link " aria-current="page" href="contact.php">Liên Hệ</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="#">Hỏi đáp và phản hồi</a>

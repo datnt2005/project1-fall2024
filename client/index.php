@@ -23,7 +23,7 @@ SUM(PS.quantityProduct) AS total_quantity, PS.price AS price,
     LIMIT 1) AS namePicProduct
 FROM products PR
 INNER JOIN product_size PS ON PR.idProduct = PS.idProduct
-GROUP BY PR.idProduct");
+GROUP BY PR.idProduct LIMIT 8" );
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,11 +55,11 @@ GROUP BY PR.idProduct");
                         style="height: 400px; object-fit: cover;" alt="Slide 1">
                 </div>
                 <div class="carousel-item">
-                    <img src="./images/assorted-nuts-bazzini-500x900-min.png" class="d-block w-100"
+                    <img src="./images/pngtree-assorted.png" class="d-block w-100"
                         style="height: 400px; object-fit: cover;" alt="Slide 2">
                 </div>
                 <div class="carousel-item">
-                    <img src="./images/assorted-nuts-bazzini-500x900-min.png" class="d-block w-100"
+                    <img src="./images/background.jpg" class="d-block w-100"
                         style="height: 400px; object-fit: cover;" alt="Slide 3">
                 </div>
             </div>

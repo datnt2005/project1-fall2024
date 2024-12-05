@@ -41,29 +41,58 @@ if (isset($_GET['remove'])) {
     exit;
 }
 
-// Xử lý cập nhật giỏ hàng
 if (isset($_POST['update_cart'])) {
     $isUpdated = false;
-    if (!isset($_SESSION['idUser']) && isset($_SESSION['cart'])) {
-        foreach ($_POST['quantity'] as $idDetailCart => $quantity) {
-            // Kiểm tra nếu số lượng hợp lệ
-            if (is_numeric($quantity) && $quantity > 0) {
-                foreach ($_SESSION['cart'] as &$cartSessionItem) {
-                    if ($cartSessionItem['idProduct'] == $idDetailCart) {
-                        $cartSessionItem['quantity'] = $quantity; // Cập nhật số lượng
-                        $isUpdated = true; // Đánh dấu là đã cập nhật
+    $qlt = $_POST['quantity'] ?? null;
+    if (empty($qlt)) {
+        echo "Vui lý nhập số lượng";
+    }else{
+        foreach ($qlt as $idDetailCart => $quantity) {
+        if (is_numeric($quantity) && $quantity > 0) {
+            // Lấy thông tin sản phẩm trong giỏ hàng
+            $cartItem = $dbHelper->select("SELECT dca.idProduct, dca.size FROM detailcart dca WHERE dca.idDetailCart = ?", [$idDetailCart]);
+
+            if (!empty($cartItem)) {
+                $idProduct = $cartItem[0]['idProduct'];
+                $size = $cartItem[0]['size'];
+
+                // Lấy số lượng tối đa từ bảng product_size
+                $productSizeInfo = $dbHelper->select("SELECT ps.quantityProduct 
+                                                     FROM product_size ps
+                                                     INNER JOIN sizes s ON ps.idSize = s.idSize
+                                                     WHERE ps.idProduct = ? AND s.nameSize = ?", [$idProduct, $size]);
+
+                if (!empty($productSizeInfo) && $quantity <= $productSizeInfo[0]['quantityProduct']) {
+                    // Cập nhật số lượng nếu hợp lệ
+                    $updateCart = $dbHelper->update("detailcart", ['quantityCart' => $quantity], "idDetailCart = $idDetailCart");
+                    if ($updateCart) {
+                        $isUpdated = true;
                     }
+                } else {
+                    echo "
+                        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                Swal.fire({
+                                    title: 'Không thể cập nhật giỏ hàng!',
+                                    text: 'Số lượng sản phẩm đã vượt quá số lượng trong kho!',
+                                    icon: 'error',
+                                    confirmButtonText: 'OK',
+                                    confirmButtonColor: '#69BA31'
+                                }).then(() => {
+                                    window.location.href = 'cart.php';
+                                });
+                            });
+                        </script>
+                        ";
+                    exit;
                 }
             }
         }
-    } else {
-        foreach ($_POST['quantity'] as $idDetailCart => $quantity) {
-            $updateCart = $dbHelper->update("detailcart", ['quantityCart' => $quantity], "idDetailCart = $idDetailCart");
-            if ($updateCart) {
-                $isUpdated = true;
-            }
-        }
     }
+    }
+    
+
     if ($isUpdated) {
         echo "
         <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
@@ -80,12 +109,13 @@ if (isset($_POST['update_cart'])) {
                 });
             });
         </script>
-    ";
-    exit;
+        ";
+        exit;
     } else {
         $_SESSION['error'] = "Không thể cập nhật giỏ hàng. Vui lòng thử lại!";
     }
 }
+
 
 // Xử lý giỏ hàng khi người dùng đã đăng nhập
 if (isset($_SESSION['idUser'])) {
@@ -330,4 +360,3 @@ foreach ($productCart as $cartItem) {
 </body>
 
 </html>
-

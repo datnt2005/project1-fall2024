@@ -51,7 +51,7 @@ if (isset($_SESSION['success'])) {
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Coupons</h3>
+                                <h3 class="card-title">Khuyến mãi</h3>
                             </div>
                             <div class="card-body">
                             <div class="d-flex justify-content-between mt-4">
@@ -77,7 +77,7 @@ if (isset($_SESSION['success'])) {
                                             <th>Giảm giá</th>
                                             <th>Ngày bắt đầu</th>
                                             <th>Ngày kết thúc</th>
-                                            <th>Action</th>
+                                            <th>Hành động</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -115,4 +115,5 @@ if (isset($_SESSION['success'])) {
         <!-- /#page-content-wrapper -->
     </div>
 </body>
+<script src="../js/script.js"></script>
 </html>

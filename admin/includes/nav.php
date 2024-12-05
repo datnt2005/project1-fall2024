@@ -2,13 +2,12 @@
     // include_once "../client/DBUntil.php";
     $dbHelper = new DBUntil();
     $idUser = $_SESSION['idUser'] ?? null;
-    $idUser = 1;
     $role = $_SESSION['role'] ?? null;
     //phân quyền trang web
-    // if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    //     header("Location: ../../client/login.php"); // Chuyển hướng đến trang đăng nhập
-    //     exit;
-    // }
+    if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+        header("Location: ../../client/login.php"); // Chuyển hướng đến trang đăng nhập
+        exit;
+    }
     $users = $dbHelper->select("SELECT * FROM users WHERE idUser = $idUser") ?? null;
     $image = $users[0]['image'] ?? null;
     $name = $users[0]['name'] ?? null;  

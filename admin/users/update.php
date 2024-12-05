@@ -170,7 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">User</h3> 
+                                <h3 class="card-title">Người dùng</h3> 
                             </div>
                             <div class="card-body">
                                 <div class="row mt-4 bg-light">

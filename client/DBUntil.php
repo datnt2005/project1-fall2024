@@ -15,6 +15,17 @@ class DBUntil
         $db = new Database(HOST, USERNAME, PASSWORD, DB_NAME);
         $this->connection = $db->getConnection();
     }
+    public function execute($sql, $params = [])
+    {
+        $stmt = $this->connection->prepare($sql);
+
+        // Sử dụng execute trực tiếp với mảng tham số
+        $stmt->execute($params);
+
+        return $stmt->rowCount();  // Trả về số dòng bị ảnh hưởng
+    }
+
+
     public function select($sql, $params = [])
     {
         $stmt = $this->connection->prepare($sql);
@@ -26,7 +37,7 @@ class DBUntil
     {
         return $this->connection->query($sql);
     }
-    
+
     public function insert($table, $data)
     {
         /** 
@@ -41,41 +52,41 @@ class DBUntil
         $sql = "INSERT INTO $table ($fields) VALUES ($placeholders)";
         // insert into Category ( name , id ) Values ( ":name" , :id )
         $stmt = $this->connection->prepare($sql);
-        
+
         foreach ($data as $key => $value) {
             $stmt->bindValue(":$key", $value);
         }
-        
+
         $stmt->execute();
         return $this->connection->lastInsertId();
     }
-    
+
     public function update($table, $data, $condition, $params = [])
     {
         $updateFields = [];
-    
+
         foreach ($data as $key => $value) {
             $updateFields[] = "$key = :$key";
         }
         $updateFields = implode(", ", $updateFields);
         $sql = "UPDATE $table SET $updateFields WHERE $condition";
         $stmt = $this->connection->prepare($sql);
-    
+
         // Bind data parameters
         foreach ($data as $key => $value) {
             $stmt->bindValue(":$key", $value);
         }
-    
+
         // Bind condition parameters
         foreach ($params as $key => $value) {
             $stmt->bindValue(":$key", $value);
         }
-    
+
         $stmt->execute();
         return $stmt->rowCount();
     }
-    
-    
+
+
     public function delete($table, $condition)
     {
         $sql = "DELETE FROM $table WHERE $condition";
@@ -84,7 +95,8 @@ class DBUntil
         $stmt->execute();
         return $stmt->rowCount();
     }
-    public function lastInsertId() {
+    public function lastInsertId()
+    {
         return $this->connection->lastInsertId();
     }
 }

@@ -3,14 +3,12 @@ include "../../../client/DBUntil.php";
 session_start();
 $role = $_SESSION['role'] ?? null;
     //phân quyền trang web
-    // if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    //     header("Location: ../../../client/login.php"); // Chuyển hướng đến trang đăng nhập
-    //     exit;
-    // }
+    if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+        header("Location: ../../../client/login.php"); // Chuyển hướng đến trang đăng nhập
+        exit;
+    }
 $dbHelper = new DBUntil();
-// $idUser = $_SESSION['idUser'];
-$idUser = 1;
-
+$idUser = $_SESSION['idUser'];
 // var_dump($idUser);
 $users = $dbHelper->select("SELECT * FROM users WHERE idUser = ?", array($idUser));
 $image = $users[0]['image'];
@@ -60,7 +58,7 @@ if (isset($_SESSION['success'])) {
 ?>   
     <div id="wrapper">
         <div id="sidebar-wrapper" class="bg-dark px-3">
-            <ul class="sidebar-nav mt-3 mb-5">
+        <ul class="sidebar-nav mt-3 mb-5">
                 <li class="sidebar-brand d-flex align-items-center px-5">
                     <div class="logo_sidebar">
                         <a href="../../index.php">
@@ -70,49 +68,49 @@ if (isset($_SESSION['success'])) {
                 </li>
                 <li class="sidebar-nav-item mt-4">
                     <a href="../../index.php" class="text-white text-decoration-none d-flex align-items-center">
-                        <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                        <i class="fas fa-tachometer-alt me-2"></i> Trang chủ
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
                     <a href="../../categories/list.php"
                         class="text-white text-decoration-none d-flex align-items-center">
-                        <i class="fas fa-th-list me-2"></i> Categories
+                        <i class="fas fa-th-list me-2"></i> Danh mục
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
                     <a href="../../sub_categories/list.php"
                         class="text-white text-decoration-none d-flex align-items-center">
-                        <i class="fas fa-th me-2"></i> Category Products
+                        <i class="fas fa-th me-2"></i> Danh mục con
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
                     <a href="../../products/list.php" class="text-white text-decoration-none d-flex align-items-center">
-                        <i class="fas fa-boxes me-2"></i> Products
+                        <i class="fas fa-boxes me-2"></i> Sản phẩm
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
                     <a href="../../orders/list.php" class="text-white text-decoration-none d-flex align-items-center">
-                        <i class="fas fa-shopping-cart me-2"></i> Orders
+                        <i class="fas fa-shopping-cart me-2"></i> Đơn hàng
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
                     <a href="../../users/list.php" class="text-white text-decoration-none d-flex align-items-center">
-                        <i class="fas fa-users me-2"></i> Users
+                        <i class="fas fa-users me-2"></i> Người dùng
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
                     <a href="../../comments/list.php" class="text-white text-decoration-none d-flex align-items-center">
-                        <i class="fas fa-comments me-2"></i> Comments
+                        <i class="fas fa-comments me-2"></i> Bình luận
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
                     <a href="../../coupons/list.php" class="text-white text-decoration-none d-flex align-items-center">
-                        <i class="fas fa-tags me-2"></i> Coupons
+                        <i class="fas fa-tags me-2"></i> Khuyến mãi
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
                     <a href="../../settings.php" class="text-white text-decoration-none d-flex align-items-center">
-                        <i class="fas fa-cogs me-2"></i> Settings
+                        <i class="fas fa-cogs me-2"></i> Cài đặt
                     </a>
                 </li>
             </ul>
@@ -150,7 +148,7 @@ if (isset($_SESSION['success'])) {
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Products Images</h3>
+                                <h3 class="card-title">Sản phẩm</h3>
                             </div>
                             <div class="card-body">
                                 <div class="d-flex justify-content-between mt-4">
@@ -185,13 +183,14 @@ if (isset($_SESSION['success'])) {
                                         <div class="col-md-3 mt-3">
                                                 <div class="img">
                                                     <img src="../image/<?= $product['namePicProduct']?>" style="width: 200px; height: 200px;"  alt="">
-                                                    <div class="action mt-3 mx-4 ">
+                                                    <div class="action mt-3 mx-5 ">
                                                         <a href="update.php?id=<?= $product['idPicProduct'] ?>" class="fw-bold text-primary text-decoration-none mx-3"><i class="fs-5 fa-solid fa-pen-nib"></i></a>
                                                         <a href="javascript:void(0);"
                                                         class="remove_categories fw-bold text-danger text-decoration-none"
                                                         onclick="confirmDelete('<?php echo $product['idPicProduct'] ?>')"><i class="fs-5 fa-solid fa-trash-can"></i></a>
                                                 </div>
-                                        </div>
+                                                </div>
+                                        </div>  
                                         <?php } 
                                             }else{
                                                 echo "<p class='text-center'>Sản phẩm chưa có hình ảnh.</p>";

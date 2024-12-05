@@ -152,7 +152,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Users</h3>
+                                <h3 class="card-title">Bình luận</h3>
 
                             </div>
                             <div class="card-body p-4 bg-light">

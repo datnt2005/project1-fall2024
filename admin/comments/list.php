@@ -47,7 +47,7 @@ foreach ($listComment as $picComment) {
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Danh sách bình luận</h3>
+                                <h3 class="card-title">Bình luận</h3>
                             </div>
                             <div class="card-body">
                                 <div class="d-flex justify-content-between mt-4">
@@ -69,7 +69,7 @@ foreach ($listComment as $picComment) {
                                             <th>Hình ảnh</th>
                                             <th>Thời gian</th>
                                             <th>Đánh giá</th>
-                                            <th>Option</th>
+                                            <th>Hành động</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -119,4 +119,5 @@ foreach ($listComment as $picComment) {
         <!-- /#page-content-wrapper -->
     </div>
 </body>
+<script src="../js/script.js"></script>
 </html>
